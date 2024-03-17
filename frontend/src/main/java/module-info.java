@@ -8,5 +8,6 @@ module org.example.frontend {
     exports org.example.frontend;
     exports org.example.frontend.components.TourMenu;
     exports org.example.frontend.components.TourDetails;
+    exports org.example.frontend.data.models;
     opens org.example.frontend.components.TourMenu to javafx.fxml;
 }
