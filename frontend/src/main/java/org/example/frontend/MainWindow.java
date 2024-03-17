@@ -12,7 +12,7 @@ public class MainWindow extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("MainWindowView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 600);
-        stage.setTitle("Hello!");
+        stage.setTitle("Tour Planner");
         stage.setScene(scene);
         stage.setMinWidth(800);
         stage.setMinHeight(600);
