@@ -2,15 +2,14 @@ package org.example.frontend.components.TourDetails;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.example.frontend.MainWindowController;
 import org.example.frontend.base.Coordinate;
-import org.example.frontend.base.OnTourSelectListener;
+import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.base.TransportType;
 import org.example.frontend.data.models.Tour;
 
 import java.util.Locale;
 
-public class TourDetailsController implements OnTourSelectListener {
+public class TourDetailsController implements TourUpdateListener {
     public Label lblName;
     public Label lblDescription;
     public Label lblFrom;
@@ -23,7 +22,7 @@ public class TourDetailsController implements OnTourSelectListener {
     @FXML
     public void initialize(){
         // Placeholder
-        onTourSelect(new Tour(
+        updateTour(new Tour(
                 20,
                 "Mittewald",
                 "Descr",
@@ -38,7 +37,7 @@ public class TourDetailsController implements OnTourSelectListener {
 
 
     @Override
-    public void onTourSelect(Tour tour) {
+    public void updateTour(Tour tour) {
         lblName.setText(tour.name());
 
         lblDescription.setText(tour.description());
