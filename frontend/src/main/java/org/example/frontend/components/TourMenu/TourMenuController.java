@@ -3,6 +3,7 @@ package org.example.frontend.components.TourMenu;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import org.example.frontend.components.TourDetails.TourDetailsController;
 import org.example.frontend.data.TourRepository;
 
 public class TourMenuController {
@@ -15,13 +16,14 @@ public class TourMenuController {
     public void initialize() {
         // Fill viewModel with available tours
         viewModel.tours = TourRepository.fetchTours();
+        // viewModel.onTourSelectListeners.add(TourDetailsController.getInstance());
 
         // Instantiate ListView with tour names
         lvTourNames.setItems(viewModel.getTourNames());
-        lvTourNames.getSelectionModel().selectedItemProperty().addListener(this::onTourSelected);
+        lvTourNames.getSelectionModel().selectedItemProperty().addListener(this::onTourSelect);
     }
 
-    private void onTourSelected(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+    private void onTourSelect(ObservableValue<? extends String> observable, String oldValue, String newValue) {
         if (newValue != null) {
             System.out.println(newValue);
         }

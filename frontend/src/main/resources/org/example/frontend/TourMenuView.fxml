@@ -6,10 +6,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.frontend.components.TourMenu.TourMenuController"
-            prefHeight="400.0" prefWidth="600.0">
+<HBox xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.example.frontend.components.TourMenu.TourMenuController"
+    spacing="10"
+    VBox.vgrow="ALWAYS"
+>
 
-    <ListView fx:id="lvTourNames" />
-</AnchorPane>
+    <VBox xmlns:fx="http://javafx.com/fxml/1" minWidth="200">
+        <BorderPane>
+            <left>
+                <Label text="Tours" HBox.hgrow="ALWAYS" />
+            </left>
+            <right>
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="+" />
+                    <Button text="-" />
+                </HBox>
+            </right>
+        </BorderPane>
+
+        <ListView fx:id="lvTourNames" VBox.vgrow="ALWAYS" />
+
+    </VBox>
+
+    <fx:include source="TourDetailsView.fxml" />
+
+</HBox>
