@@ -23,13 +23,13 @@ public class TourDetailsController implements TourUpdateListener {
     public void initialize(){
         // Placeholder
         updateTour(new Tour(
-                20,
+                "Some UUID",
                 "Mittewald",
                 "Descr",
                 new Coordinate(49.323, 39.293),
                 new Coordinate(23.234, 29.293),
                 300,
-                TransportType.BUS,
+                TransportType.WALK,
                 500,
                 "myMap.png"
         ));
