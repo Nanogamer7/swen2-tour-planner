@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.frontend.components.TourLogs.TourLogsController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label text="Tour Logs" />
-</AnchorPane>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.frontend.components.TourLogs.TourLogsController"
+      prefHeight="400.0" prefWidth="600.0"
+>
+    <BorderPane>
+        <left>
+            <Label text="Tour Logs" />
+        </left>
+        <right>
+            <Button text="+" fx:id="btnAddTourLog" />
+        </right>
+    </BorderPane>
+    <TableView fx:id="tblLogs">
+        <columns>
+            <TableColumn fx:id="colDate" text="Date" prefWidth="120" />
+            <TableColumn fx:id="colDuration" text="Duration" />
+            <TableColumn fx:id="colDistance" text="Distance" />
+            <TableColumn fx:id="colDifficulty" text="Difficulty" />
+            <TableColumn fx:id="colRating" text="Rating" />
+            <TableColumn fx:id="colComment" text="Comment" prefWidth="400"/>
+        </columns>
+    </TableView>
+</VBox>
