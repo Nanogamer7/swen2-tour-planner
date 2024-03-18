@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TourMenuViewModel {
-    public Map<String, Integer> tours;
+    public Map<String, String> tours;
     public List<TourUpdateListener> onTourSelectListeners = new ArrayList<>();
 
     public ObservableList<String> getTourNames(){
