@@ -3,29 +3,33 @@ package org.example.frontend.components.TourMenu;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import org.example.frontend.components.TourDetails.TourDetailsController;
+import org.example.frontend.EventHandler;
 import org.example.frontend.data.TourRepository;
+import org.example.frontend.data.models.Tour;
 
 public class TourMenuController {
     private final TourMenuViewModel viewModel = new TourMenuViewModel();
 
-    // fxml references
     public ListView<String> lvTourNames;
+
 
     @FXML
     public void initialize() {
-        // Fill viewModel with available tours
-        viewModel.tours = TourRepository.fetchTours();
-        // viewModel.onTourSelectListeners.add(TourDetailsController.getInstance());
+        // Instantiate ViewModel
+        viewModel.setTours(TourRepository.fetchTours());
 
-        // Instantiate ListView with tour names
-        lvTourNames.setItems(viewModel.getTourNames());
+        // Set up ListView, including its interaction event
+        lvTourNames.setItems(viewModel.getTourListViewNames());
         lvTourNames.getSelectionModel().selectedItemProperty().addListener(this::onTourSelect);
     }
 
+
     private void onTourSelect(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        if (newValue != null) {
-            System.out.println(newValue);
+        if (newValue == null) {
+            return;
         }
+
+        var tour = viewModel.getTourFromName(newValue);
+        EventHandler.getInstance().publishTourSelectEvent(tour);
     }
 }
