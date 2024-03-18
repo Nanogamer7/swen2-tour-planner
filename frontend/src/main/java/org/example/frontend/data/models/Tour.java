@@ -1,10 +1,7 @@
 package org.example.frontend.data.models;
 
-import org.example.frontend.base.Coordinate;
-import org.example.frontend.base.TransportType;
-
 public record Tour (
-    int id,
+    String uuid,
 
     String name,
     String description,

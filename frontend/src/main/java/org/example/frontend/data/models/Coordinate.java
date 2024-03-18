@@ -1,4 +1,4 @@
-package org.example.frontend.base;
+package org.example.frontend.data.models;
 
 public record Coordinate(
         double latitude,

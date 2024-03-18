@@ -2,9 +2,9 @@ package org.example.frontend.components.TourDetails;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.example.frontend.base.Coordinate;
+import org.example.frontend.data.models.Coordinate;
 import org.example.frontend.base.TourUpdateListener;
-import org.example.frontend.base.TransportType;
+import org.example.frontend.data.models.TransportType;
 import org.example.frontend.data.models.Tour;
 
 import java.util.Locale;
