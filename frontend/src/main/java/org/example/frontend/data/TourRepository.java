@@ -19,7 +19,7 @@ public class TourRepository {
                 50,
                 TransportType.WALK,
                 1200,
-                "korneuburgMap.png"
+                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
             ),
             new Tour(
                 "0e54bffe-e559-11ee-a81a-ebc3d3b4f9e3",
@@ -30,7 +30,7 @@ public class TourRepository {
                 500,
                 TransportType.POGO_STICK,
                 500,
-                "mittewaldMap.png"
+                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
             )
     );
 
@@ -38,5 +38,15 @@ public class TourRepository {
     public static List<Tour> fetchTours() {
         // Placeholder
         return placeholderTours;
+    }
+
+    public static String fetchTourImage(String uuid){
+        for(var tour : placeholderTours){
+            if(tour.uuid().equals(uuid)){
+                return tour.mapFilename();
+            }
+        }
+
+        throw new RuntimeException("tour with uuid not found in placeholders");
     }
 }

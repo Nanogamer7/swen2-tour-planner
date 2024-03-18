@@ -3,10 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <TabPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.frontend.components.TourDetails.TourDetailsController"
-            prefHeight="400.0" prefWidth="600.0"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="org.example.frontend.components.TourDetails.TourDetailsController"
+         prefHeight="400.0" prefWidth="600.0"
          HBox.hgrow="ALWAYS"
          tabClosingPolicy="UNAVAILABLE"
 >
@@ -39,7 +41,12 @@
 
 
     <Tab text="Route">
-        <Label text="Route tab" />
+        <VBox style="-fx-padding: 10;">
+            <HBox alignment="CENTER">
+                <ImageView preserveRatio="true" fitWidth="600" fx:id="imgTourMap" />
+            </HBox>
+            <fx:include source="TourLogsView.fxml" />
+        </VBox>
     </Tab>
 
 
