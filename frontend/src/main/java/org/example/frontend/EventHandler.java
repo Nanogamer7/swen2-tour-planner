@@ -1,6 +1,8 @@
 package org.example.frontend;
 
 import org.example.frontend.base.TourUpdateListener;
+import org.example.frontend.components.TourList.TourListController;
+import org.example.frontend.components.TourMenu.TourMenuController;
 import org.example.frontend.data.models.Tour;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
  */
 public class EventHandler {
     private ArrayList<TourUpdateListener> tourUpdateListeners = new ArrayList<>();
+    private TourListController tourListController;
 
     // Singleton implementation
     private static EventHandler instance;
@@ -22,8 +25,8 @@ public class EventHandler {
         return instance;
     }
 
-    // Event handling
-    public void publishTourSelectEvent(Tour selectedTour){
+    // New tour selected event
+    public void publishTourUpdateEvent(Tour selectedTour){
         for(var listener : tourUpdateListeners){
             listener.updateTour(selectedTour);
         }
@@ -31,5 +34,15 @@ public class EventHandler {
 
     public void registerTourUpdateListener(TourUpdateListener listener){
         tourUpdateListeners.add(listener);
+    }
+
+
+    // Refresh tours list
+    public void registerTourListController(TourListController tourListController){
+        this.tourListController = tourListController;
+    }
+
+    public void refreshTourList(){
+        this.tourListController.refreshToursList();
     }
 }

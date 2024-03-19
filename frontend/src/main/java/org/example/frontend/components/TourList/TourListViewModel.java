@@ -1,4 +1,4 @@
-package org.example.frontend.components.TourMenu;
+package org.example.frontend.components.TourList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TourMenuViewModel {
+public class TourListViewModel {
     private final Map<String, Tour> tours = new HashMap<>();  // Map<tourName, Tour>
 
     public ObservableList<String> getTourListViewNames(){
