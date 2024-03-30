@@ -28,7 +28,8 @@ public class TourDetailsViewModel implements TourUpdateListener {
         from.set( String.format("%s,%s", tour.from().latitude(), tour.from().longitude()) );
         to.set( String.format("%s, %s", tour.to().latitude(), tour.to().longitude()) );
         distance.set( String.format("%dm", tour.distance()) );
-        type.set( tour.type().name().toLowerCase(Locale.ROOT) );
+        type.set( tour.type().name); // enum now has member vars, not ideal yet
+        // type.set( tour.type().name().toLowerCase(Locale.ROOT) );
 
         // Calculate time
         var hours = Math.floorDiv(tour.estimated_time(), 60*60);
