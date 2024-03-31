@@ -32,6 +32,7 @@ public class TourListController {
 
         var tour = viewModel.getTourFromName(newValue);
         EventHandler.getInstance().publishTourUpdateEvent(tour);
+        EventHandler.getInstance().updateFormVisibility(false);
     }
 
 

@@ -30,7 +30,11 @@
 
     </VBox>
 
-    <StackPane fx:id="content"/>
-    <fx:include source="TourFormView.fxml" />
+    <VBox fx:id="tourForm">
+        <fx:include source="TourFormView.fxml" />
+    </VBox>
+    <VBox fx:id="tourDetails">
+        <fx:include source="TourDetailsView.fxml" />
+    </VBox>
 
 </HBox>

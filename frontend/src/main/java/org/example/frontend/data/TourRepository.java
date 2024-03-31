@@ -20,7 +20,7 @@ public final class TourRepository {
     }
     // end of singleton stuff
 
-    private List<Tour> placeholderTours = new ArrayList<>(List.of(
+    private final List<Tour> placeholderTours = new ArrayList<>(List.of(
             new Tour(
                 UUID.fromString("ec63faae-e512-11ee-931f-b3892627d62d"),
                 "Korneuburg",
@@ -45,7 +45,7 @@ public final class TourRepository {
             )
     ));
 
-    private Map<UUID, List<TourLog>> placeholderTourLogs = new HashMap<>(Map.of(
+    private final Map<UUID, List<TourLog>> placeholderTourLogs = new HashMap<>(Map.of(
         UUID.fromString("ec63faae-e512-11ee-931f-b3892627d62d"), List.of(
             new TourLog("1", 1000000, "Comment 1", 1, 100, 100, 1, true),
             new TourLog("2", 2000000, "Comment 2", 2, 200, 200, 2, false),
@@ -57,7 +57,7 @@ public final class TourRepository {
     ));
 
     // TODO: return if success
-    public void createTour(TourInput tourInput) {
+    public UUID createTour(TourInput tourInput) {
         // TODO: replace with REST call
 
         UUID tourUUID = UUID.randomUUID();
@@ -75,6 +75,8 @@ public final class TourRepository {
         ));
 
         placeholderTourLogs.put(tourUUID, List.of());
+
+        return tourUUID;
     }
 
     public List<Tour> fetchTours() {

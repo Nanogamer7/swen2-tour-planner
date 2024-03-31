@@ -7,6 +7,8 @@ import org.example.frontend.data.models.Coordinate;
 import org.example.frontend.data.models.TourInput;
 import org.example.frontend.data.models.TransportType;
 
+import java.util.UUID;
+
 public class TourFormViewModel {
     public StringProperty name = new SimpleStringProperty();
     public StringProperty description = new SimpleStringProperty();
@@ -24,7 +26,9 @@ public class TourFormViewModel {
                 this.type.get()
         );
 
-        TourRepository.getInstance().createTour(tour);
+        UUID tourUuid = TourRepository.getInstance().createTour(tour);
         EventHandler.getInstance().refreshTourList();
+        EventHandler.getInstance().updateFormVisibility(false);
+        EventHandler.getInstance().publishTourUpdateEvent(TourRepository.getInstance().fetchTours().stream().filter(t -> t.uuid().equals(tourUuid)).findFirst().get());
     }
 }
