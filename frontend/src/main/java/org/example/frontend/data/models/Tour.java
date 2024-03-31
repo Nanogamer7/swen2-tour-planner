@@ -1,8 +1,9 @@
 package org.example.frontend.data.models;
 
-public record Tour (
-        String uuid,
+import java.util.UUID;
 
+public record Tour (
+        UUID uuid,
         String name,
         String description,
         Coordinate from,

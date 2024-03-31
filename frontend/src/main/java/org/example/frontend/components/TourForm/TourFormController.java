@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
+import javafx.util.converter.NumberStringConverter;
 import org.example.frontend.data.models.TransportType;
 
 public class TourFormController {
@@ -22,6 +23,17 @@ public class TourFormController {
 
     @FXML
     public void initialize() {
+        nameField.textProperty().bindBidirectional(viewModel.name);
+        descrField.textProperty().bindBidirectional(viewModel.description);
+        startLatitudeField.textProperty().bindBidirectional(viewModel.startLatitude, new NumberStringConverter());
+        startLongitudeField.textProperty().bindBidirectional(viewModel.startLongitude, new NumberStringConverter());
+        endLatitudeField.textProperty().bindBidirectional(viewModel.endLatitude, new NumberStringConverter());
+        endLongitudeField.textProperty().bindBidirectional(viewModel.endLongitude, new NumberStringConverter());
+        typeDrowdown.valueProperty().bindBidirectional(viewModel.type);
+
+        confirmButton.setOnAction(event -> viewModel.createNewTour());
+        //cancelButton.setOnAction();
+
         typeDrowdown.getItems().setAll(TransportType.values());
 
         // This is definitely not copied from chatGPT [amogus]
