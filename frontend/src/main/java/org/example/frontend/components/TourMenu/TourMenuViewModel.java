@@ -1,15 +1,19 @@
 package org.example.frontend.components.TourMenu;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.example.frontend.base.FormVisibilityListener;
 import org.example.frontend.data.models.Tour;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TourMenuViewModel {
+public class TourMenuViewModel implements FormVisibilityListener {
     private final Map<String, Tour> tours = new HashMap<>();  // Map<tourName, Tour>
+    public BooleanProperty formVisible = new SimpleBooleanProperty(false);
 
     public ObservableList<String> getTourListViewNames(){
         return FXCollections.observableArrayList(tours.keySet());
@@ -20,6 +24,10 @@ public class TourMenuViewModel {
         tours.forEach(tour -> {
             this.tours.put(tour.name(), tour);
         });
+    }
+
+    public void onFormVisible(boolean visible) {
+        this.formVisible.set(visible);
     }
 
     /**

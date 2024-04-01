@@ -17,7 +17,7 @@ public class TourListController {
         EventHandler.getInstance().registerTourListController(this);
 
         // Instantiate ViewModel
-        viewModel.setTours(TourRepository.fetchTours());
+        viewModel.setTours(TourRepository.getInstance().fetchTours());
 
         // Set up ListView, including its interaction event
         lvTourNames.setItems(viewModel.getTourListViewNames());
@@ -32,11 +32,12 @@ public class TourListController {
 
         var tour = viewModel.getTourFromName(newValue);
         EventHandler.getInstance().publishTourUpdateEvent(tour);
+        EventHandler.getInstance().updateFormVisibility(false);
     }
 
 
     public void refreshToursList(){
-        viewModel.setTours(TourRepository.fetchTours());
+        viewModel.setTours(TourRepository.getInstance().fetchTours());
         lvTourNames.setItems(viewModel.getTourListViewNames());
     }
 }
