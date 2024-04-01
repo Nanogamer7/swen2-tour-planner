@@ -83,7 +83,7 @@ public final class TourRepository {
     public UUID modifyTour(TourInput tourInput, UUID tourUUID) {
         // TODO: replace with REST call
 
-        placeholderTours.stream().map(tour -> tour.uuid() == tourUUID ? new Tour(
+        placeholderTours.replaceAll(tour -> tour.uuid() == tourUUID ? new Tour(
                 tourUUID,
                 tourInput.name(),
                 tourInput.description(),

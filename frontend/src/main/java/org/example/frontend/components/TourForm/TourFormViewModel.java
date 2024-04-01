@@ -61,9 +61,9 @@ public class TourFormViewModel implements TourUpdateListener {
             modifyTour(tourUuid = this.tourUuid);
         }
 
-        EventHandler.getInstance().refreshTourList();
         EventHandler.getInstance().updateFormVisibility(false);
         EventHandler.getInstance().publishTourUpdateEvent(TourRepository.getInstance().fetchTours().stream().filter(t -> t.uuid().equals(tourUuid)).findFirst().get());
+        EventHandler.getInstance().refreshTourList();
     }
 
     public UUID createNewTour() {
@@ -87,5 +87,6 @@ public class TourFormViewModel implements TourUpdateListener {
                 this.type.get()
         );
 
+        TourRepository.getInstance().modifyTour(tour, tourUuid);
     }
 }
