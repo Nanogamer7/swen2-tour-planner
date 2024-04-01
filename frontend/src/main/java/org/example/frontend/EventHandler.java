@@ -3,7 +3,6 @@ package org.example.frontend;
 import org.example.frontend.base.FormVisibilityListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.components.TourList.TourListController;
-import org.example.frontend.components.TourMenu.TourMenuController;
 import org.example.frontend.data.models.Tour;
 
 import java.util.ArrayList;
@@ -12,9 +11,6 @@ import java.util.ArrayList;
  * A mediator to pass UI updates between components
  */
 public class EventHandler {
-    private ArrayList<TourUpdateListener> tourUpdateListeners = new ArrayList<>();
-    private TourListController tourListController;
-    private ArrayList<FormVisibilityListener> formVisibilityListeners = new ArrayList<>();
 
     // Singleton implementation
     private static EventHandler instance;
@@ -28,6 +24,8 @@ public class EventHandler {
     }
 
     // New tour selected event
+
+    private final ArrayList<TourUpdateListener> tourUpdateListeners = new ArrayList<>();
     // TODO: more descriptive name
     public void publishTourUpdateEvent(Tour selectedTour){
         for (var listener : tourUpdateListeners) {
@@ -40,6 +38,7 @@ public class EventHandler {
     }
 
     // Refresh tours list
+    private TourListController tourListController;
     public void registerTourListController(TourListController tourListController){
         this.tourListController = tourListController;
     }
@@ -49,6 +48,8 @@ public class EventHandler {
     }
 
 
+
+    private final ArrayList<FormVisibilityListener> formVisibilityListeners = new ArrayList<>();
     public void registerFormVisibilityListener(FormVisibilityListener listener) { formVisibilityListeners.add(listener); }
     public void updateFormVisibility(boolean visible) {
         for (var listener : formVisibilityListeners) {

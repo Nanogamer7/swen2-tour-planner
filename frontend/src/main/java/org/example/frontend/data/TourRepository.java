@@ -80,7 +80,7 @@ public final class TourRepository {
     }
 
     // TODO: return if success
-    public UUID modifyTour(TourInput tourInput, UUID tourUUID) {
+    public void modifyTour(TourInput tourInput, UUID tourUUID) {
         // TODO: replace with REST call
 
         placeholderTours.replaceAll(tour -> tour.uuid() == tourUUID ? new Tour(
@@ -105,8 +105,15 @@ public final class TourRepository {
                 tourLog.getRating(),
                 true
         ));
+    }
 
-        return tourUUID;
+    // TODO: return if success
+    public void delete(UUID tourUUID) {
+        // TODO: replace with REST call
+
+        placeholderTours.removeIf(tour -> tour.uuid() == tourUUID);
+
+        placeholderTourLogs.remove(tourUUID);
     }
 
     public List<Tour> fetchTours() {

@@ -2,7 +2,6 @@ package org.example.frontend.components.TourForm;
 
 import javafx.beans.property.*;
 import org.example.frontend.EventHandler;
-import org.example.frontend.base.FormVisibilityListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Coordinate;
