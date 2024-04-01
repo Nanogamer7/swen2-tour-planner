@@ -42,6 +42,8 @@ public class TourLogsController implements TourUpdateListener {
 
     @Override
     public void updateTour(Tour tour) {
+        if (tour == null) return;
+
         var tourLogs = TourRepository.getInstance().fetchTourLogs(tour.uuid());
 
         viewModel.updateTourLogs(tourLogs);

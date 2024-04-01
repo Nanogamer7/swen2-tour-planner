@@ -21,6 +21,7 @@
             <right>
                 <HBox spacing="10" alignment="CENTER_RIGHT">
                     <Button text="+" fx:id="btnAddTour" />
+                    <Button text="*" fx:id="btnEditTour" />
                     <Button text="-" fx:id="btnDeleteTour" />
                 </HBox>
             </right>

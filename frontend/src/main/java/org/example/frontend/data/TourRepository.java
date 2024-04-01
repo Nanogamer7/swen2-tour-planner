@@ -79,6 +79,43 @@ public final class TourRepository {
         return tourUUID;
     }
 
+    // TODO: return if success
+    public void modifyTour(TourInput tourInput, UUID tourUUID) {
+        // TODO: replace with REST call
+
+        placeholderTours.replaceAll(tour -> tour.uuid() == tourUUID ? new Tour(
+                tourUUID,
+                tourInput.name(),
+                tourInput.description(),
+                tourInput.from(),
+                tourInput.to(),
+                new Random().nextInt() % 1000,
+                tourInput.type(),
+                new Random().nextInt() % 1000,
+                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
+        ) : tour);
+
+        placeholderTourLogs.get(tourUUID).forEach(tourLog -> new TourLog(
+                tourLog.getUuid(),
+                tourLog.getTimestamp(),
+                tourLog.getComment(),
+                tourLog.getDifficulty(),
+                tourLog.getDistance(),
+                tourLog.getDuration(),
+                tourLog.getRating(),
+                true
+        ));
+    }
+
+    // TODO: return if success
+    public void delete(UUID tourUUID) {
+        // TODO: replace with REST call
+
+        placeholderTours.removeIf(tour -> tour.uuid() == tourUUID);
+
+        placeholderTourLogs.remove(tourUUID);
+    }
+
     public List<Tour> fetchTours() {
         // Placeholder
         return placeholderTours;

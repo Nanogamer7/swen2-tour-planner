@@ -16,6 +16,7 @@ public class TourListViewModel {
     }
 
     public void setTours(List<Tour> tours){
+        this.tours.clear();
         // Transform tour list to Map of format Map<tourName, Tour>
         tours.forEach(tour -> {
             this.tours.put(tour.name(), tour);

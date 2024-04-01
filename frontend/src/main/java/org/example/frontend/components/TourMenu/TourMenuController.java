@@ -18,6 +18,7 @@ public class TourMenuController {
 
     public Button btnAddTour;
     public Button btnDeleteTour;
+    public Button btnEditTour;
 
     public VBox tourForm;
     public VBox tourDetails;
@@ -31,8 +32,20 @@ public class TourMenuController {
         tourDetails.managedProperty().bind(Bindings.not(viewModel.formVisible));
 
         EventHandler.getInstance().registerFormVisibilityListener(viewModel);
+        EventHandler.getInstance().registerTourUpdateListener(viewModel);
+
         // Set up add tour/delete tour events here
 
-        btnAddTour.setOnAction(event -> EventHandler.getInstance().updateFormVisibility(true));
+        btnAddTour.setOnAction(event -> {
+            EventHandler.getInstance().updateFormVisibility(true);
+            EventHandler.getInstance().publishTourUpdateEvent(null);
+        });
+
+        btnEditTour.setOnAction(event -> {
+            EventHandler.getInstance().updateFormVisibility(true);
+        });
+
+        // TODO: confirm window
+        btnDeleteTour.setOnAction(event -> viewModel.deleteTour());
     }
 }

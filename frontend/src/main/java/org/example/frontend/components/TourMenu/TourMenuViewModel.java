@@ -4,16 +4,21 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.example.frontend.EventHandler;
 import org.example.frontend.base.FormVisibilityListener;
+import org.example.frontend.base.TourUpdateListener;
+import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-public class TourMenuViewModel implements FormVisibilityListener {
+public class TourMenuViewModel implements FormVisibilityListener, TourUpdateListener {
     private final Map<String, Tour> tours = new HashMap<>();  // Map<tourName, Tour>
     public BooleanProperty formVisible = new SimpleBooleanProperty(false);
+    public UUID selectedTourUuid = null;
 
     public ObservableList<String> getTourListViewNames(){
         return FXCollections.observableArrayList(tours.keySet());
@@ -29,6 +34,7 @@ public class TourMenuViewModel implements FormVisibilityListener {
     public void onFormVisible(boolean visible) {
         this.formVisible.set(visible);
     }
+    public void updateTour(Tour tour) { this.selectedTourUuid = tour == null ? null : tour.uuid(); };
 
     /**
      * @param name Name from the ListView
@@ -44,5 +50,11 @@ public class TourMenuViewModel implements FormVisibilityListener {
         }
 
         return tour;
+    }
+
+    public void deleteTour() {
+        if (selectedTourUuid == null) return;
+        TourRepository.getInstance().delete(selectedTourUuid);
+        EventHandler.getInstance().refreshTourList();
     }
 }
