@@ -79,6 +79,36 @@ public final class TourRepository {
         return tourUUID;
     }
 
+    // TODO: return if success
+    public UUID modifyTour(TourInput tourInput, UUID tourUUID) {
+        // TODO: replace with REST call
+
+        placeholderTours.stream().map(tour -> tour.uuid() == tourUUID ? new Tour(
+                tourUUID,
+                tourInput.name(),
+                tourInput.description(),
+                tourInput.from(),
+                tourInput.to(),
+                new Random().nextInt() % 1000,
+                tourInput.type(),
+                new Random().nextInt() % 1000,
+                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
+        ) : tour);
+
+        placeholderTourLogs.get(tourUUID).forEach(tourLog -> new TourLog(
+                tourLog.getUuid(),
+                tourLog.getTimestamp(),
+                tourLog.getComment(),
+                tourLog.getDifficulty(),
+                tourLog.getDistance(),
+                tourLog.getDuration(),
+                tourLog.getRating(),
+                true
+        ));
+
+        return tourUUID;
+    }
+
     public List<Tour> fetchTours() {
         // Placeholder
         return placeholderTours;

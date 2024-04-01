@@ -6,6 +6,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.util.converter.NumberStringConverter;
+import org.example.frontend.EventHandler;
+import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.models.TransportType;
 
 public class TourFormController {
@@ -31,7 +33,7 @@ public class TourFormController {
         endLongitudeField.textProperty().bindBidirectional(viewModel.endLongitude, new NumberStringConverter());
         typeDrowdown.valueProperty().bindBidirectional(viewModel.type);
 
-        confirmButton.setOnAction(event -> viewModel.createNewTour());
+        confirmButton.setOnAction(event -> viewModel.submit());
         //cancelButton.setOnAction();
 
         typeDrowdown.getItems().setAll(TransportType.values());
@@ -62,5 +64,7 @@ public class TourFormController {
                 }
             }
         });
+
+        EventHandler.getInstance().registerTourUpdateListener(viewModel);
     }
 }

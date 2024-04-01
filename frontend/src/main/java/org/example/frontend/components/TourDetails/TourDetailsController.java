@@ -48,6 +48,7 @@ public class TourDetailsController implements TourUpdateListener {
 
     @Override
     public void updateTour(Tour tour) {
+        if (tour == null) return;
         viewModel.updateTour(tour);
 
         // Done manually as <Image> doesn't support StringProperties for url

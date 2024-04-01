@@ -4,9 +4,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import org.example.frontend.EventHandler;
+import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
+import org.example.frontend.data.models.Tour;
 
-public class TourListController {
+public class TourListController implements TourUpdateListener {
     private final TourListViewModel viewModel = new TourListViewModel();
 
     public ListView<String> lvTourNames;
@@ -22,6 +24,8 @@ public class TourListController {
         // Set up ListView, including its interaction event
         lvTourNames.setItems(viewModel.getTourListViewNames());
         lvTourNames.getSelectionModel().selectedItemProperty().addListener(this::onTourSelect);
+
+        EventHandler.getInstance().registerTourUpdateListener(this);
     }
 
 
@@ -35,6 +39,10 @@ public class TourListController {
         EventHandler.getInstance().updateFormVisibility(false);
     }
 
+    @Override
+    public void updateTour(Tour tour) {
+        // mark tour as selected -> used after creating a tour
+    };
 
     public void refreshToursList(){
         viewModel.setTours(TourRepository.getInstance().fetchTours());
