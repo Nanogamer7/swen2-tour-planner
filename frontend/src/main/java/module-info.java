@@ -15,4 +15,5 @@ module org.example.frontend {
     exports org.example.frontend.data.models;
     exports org.example.frontend.base;
     opens org.example.frontend.components.TourMenu to javafx.fxml;
+    exports org.example.frontend.components.TourLogsForm;
 }
