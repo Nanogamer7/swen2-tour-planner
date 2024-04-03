@@ -1,71 +1,50 @@
 package org.example.frontend.components.TourLogsForm;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.util.StringConverter;
+import javafx.util.converter.LocalTimeStringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.example.frontend.EventHandler;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.models.TransportType;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class TourLogsFormController {
     private final TourLogsFormViewModel viewModel = new TourLogsFormViewModel();
 
-    public TextField nameField;
-    public TextField descrField;
-    public TextField startLatitudeField;
-    public TextField startLongitudeField;
-    public TextField endLatitudeField;
-    public TextField endLongitudeField;
-    public ComboBox<TransportType> typeDrowdown;
+    public DatePicker dateField;
+    public TextField durationField;
+    public TextField distanceField;
+    public TextField difficultyField;
+    public TextField ratingField;
+    public TextField commentField;
+    //public ComboBox<TransportType> typeDrowdown;
     public Button confirmButton;
     public Button cancelButton;
 
     @FXML
     public void initialize() {
-        System.out.println("HIER");
-        nameField.textProperty().bindBidirectional(viewModel.name);
-        descrField.textProperty().bindBidirectional(viewModel.description);
-        startLatitudeField.textProperty().bindBidirectional(viewModel.startLatitude, new NumberStringConverter());
-        startLongitudeField.textProperty().bindBidirectional(viewModel.startLongitude, new NumberStringConverter());
-        endLatitudeField.textProperty().bindBidirectional(viewModel.endLatitude, new NumberStringConverter());
-        endLongitudeField.textProperty().bindBidirectional(viewModel.endLongitude, new NumberStringConverter());
-        typeDrowdown.valueProperty().bindBidirectional(viewModel.type);
+        dateField.valueProperty().bindBidirectional(viewModel.date);
 
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        StringConverter<LocalTime> converter = new LocalTimeStringConverter(timeFormatter, timeFormatter);
+        durationField.textProperty().bindBidirectional(viewModel.duration, converter);
+        distanceField.textProperty().bindBidirectional(viewModel.distance, new NumberStringConverter());
+        difficultyField.textProperty().bindBidirectional(viewModel.difficulty, new NumberStringConverter());
+        ratingField.textProperty().bindBidirectional(viewModel.rating, new NumberStringConverter());
+        commentField.textProperty().bindBidirectional(viewModel.comment);
         confirmButton.setOnAction(event -> viewModel.submit());
         cancelButton.setOnAction(event -> EventHandler.getInstance().updateTourLogsFormVisibility(false));
 
-        typeDrowdown.getItems().setAll(TransportType.values());
+        //typeDrowdown.getItems().setAll(TransportType.values());
 
         // This is definitely not copied from chatGPT [amogus]
         // Customize the rendering of the combobox display area
-        typeDrowdown.setButtonCell(new ListCell<TransportType>() {
-            @Override
-            protected void updateItem(TransportType item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.name);
-                }
-            }
-        });
 
-        // Customize the rendering of the combobox dropdown list
-        typeDrowdown.setCellFactory(lv -> new ListCell<TransportType>() {
-            @Override
-            protected void updateItem(TransportType item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.name);
-                }
-            }
-        });
 
-        //EventHandler.getInstance().registerTourLogsFormVisibilityListener(viewModel);
+        //EventHandler.getInstance().registerTourUpdateListener(viewModel);
     }
 }

@@ -4,31 +4,36 @@ import javafx.beans.property.*;
 import org.example.frontend.EventHandler;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
-import org.example.frontend.data.models.Coordinate;
-import org.example.frontend.data.models.Tour;
-import org.example.frontend.data.models.TourInput;
-import org.example.frontend.data.models.TransportType;
+import org.example.frontend.data.models.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public class TourLogsFormViewModel implements TourUpdateListener {
-    public StringProperty name = new SimpleStringProperty();
-    public StringProperty description = new SimpleStringProperty();
-    public DoubleProperty startLatitude = new SimpleDoubleProperty();
-    public DoubleProperty startLongitude = new SimpleDoubleProperty();
-    public DoubleProperty endLatitude = new SimpleDoubleProperty();
-    public DoubleProperty endLongitude = new SimpleDoubleProperty();
-    public ObjectProperty<TransportType> type = new SimpleObjectProperty<>();
+    public ObjectProperty<LocalDate> date = new SimpleObjectProperty<>(LocalDate.now());
+
+    public DoubleProperty distance = new SimpleDoubleProperty();
+    public ObjectProperty<LocalTime> duration = new SimpleObjectProperty<>(LocalTime.now());
+    public DoubleProperty difficulty = new SimpleDoubleProperty();
+    public DoubleProperty rating = new SimpleDoubleProperty();
+    public StringProperty comment = new SimpleStringProperty();
+    //public ObjectProperty<TransportType> type = new SimpleObjectProperty<>();
 
     public UUID tourUuid = null;
 
+    @Override
+    public void updateTour(Tour tour) {
+
+    }
+
+    /*
     @Override
     public void updateTour(Tour tour) {
         if (tour == null) {
             tourUuid = null;
 
             // implicitly new tour
-            name.set("");
             description.set("");
             startLatitude.set(0);
             startLongitude.set(0);
@@ -36,10 +41,12 @@ public class TourLogsFormViewModel implements TourUpdateListener {
             endLongitude.set(0);
             type.set(null);
 
+
             return;
         }
 
         tourUuid = tour.uuid();
+
 
         // implicitly new tour
         name.set(tour.name());
@@ -49,22 +56,33 @@ public class TourLogsFormViewModel implements TourUpdateListener {
         endLatitude.set(tour.to().latitude());
         endLongitude.set(tour.to().longitude());
         type.set(tour.type());
-    }
+
+    }*/
 
     public void submit() {
+        /*
         UUID tourUuid;
         if (this.tourUuid == null) {
             tourUuid = (this.tourUuid = createNewTour());
         }
         else {
             modifyTour(tourUuid = this.tourUuid);
-        }
+        }*/
 
+        TourRepository.getInstance().addTourLog(new TourLogInput(
+                this.date.get(),
+                this.comment.get(),
+                this.difficulty.get(),
+                this.distance.get(),
+                this.duration.get(),
+                this.rating.get()
+        ));
         EventHandler.getInstance().updateTourLogsFormVisibility(false);
-        EventHandler.getInstance().publishTourUpdateEvent(TourRepository.getInstance().fetchTours().stream().filter(t -> t.uuid().equals(tourUuid)).findFirst().get());
-        EventHandler.getInstance().refreshTourList();
+        // TODO: refresh logs list
     }
 
+
+    /*
     public UUID createNewTour() {
         var tour = new TourInput(
                 this.name.get(),
@@ -88,4 +106,5 @@ public class TourLogsFormViewModel implements TourUpdateListener {
 
         TourRepository.getInstance().modifyTour(tour, tourUuid);
     }
+     */
 }

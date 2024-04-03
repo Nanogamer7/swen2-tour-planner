@@ -116,6 +116,11 @@ public final class TourRepository {
         placeholderTourLogs.remove(tourUUID);
     }
 
+    // TODO: return if success
+    public void addTourLog(TourLog tourLog, UUID tourUuid) {
+        this.placeholderTourLogs.get(tourUuid).add(tourLog);
+    }
+
     public List<Tour> fetchTours() {
         // Placeholder
         return placeholderTours;
