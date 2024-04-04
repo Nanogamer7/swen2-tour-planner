@@ -60,7 +60,7 @@ public class TourFormViewModel implements TourUpdateListener {
             modifyTour(tourUuid = this.tourUuid);
         }
 
-        EventHandler.getInstance().updateFormVisibility(false);
+        EventHandler.getInstance().updateTourFormVisibility(false);
         EventHandler.getInstance().publishTourUpdateEvent(TourRepository.getInstance().fetchTours().stream().filter(t -> t.uuid().equals(tourUuid)).findFirst().get());
         EventHandler.getInstance().refreshTourList();
     }

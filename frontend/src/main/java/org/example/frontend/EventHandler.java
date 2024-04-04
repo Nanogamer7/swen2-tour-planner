@@ -1,6 +1,7 @@
 package org.example.frontend;
 
-import org.example.frontend.base.FormVisibilityListener;
+import org.example.frontend.base.TourFormVisibilityListener;
+import org.example.frontend.base.TourLogFormVisibilityListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.components.TourList.TourListController;
 import org.example.frontend.data.models.Tour;
@@ -49,11 +50,19 @@ public class EventHandler {
 
 
 
-    private final ArrayList<FormVisibilityListener> formVisibilityListeners = new ArrayList<>();
-    public void registerFormVisibilityListener(FormVisibilityListener listener) { formVisibilityListeners.add(listener); }
-    public void updateFormVisibility(boolean visible) {
-        for (var listener : formVisibilityListeners) {
-            listener.onFormVisible(visible);
+    private final ArrayList<TourFormVisibilityListener> tourFormVisibilityListeners = new ArrayList<>();
+    public void registerTourFormVisibilityListener(TourFormVisibilityListener listener) { tourFormVisibilityListeners.add(listener); }
+    public void updateTourFormVisibility(boolean visible) {
+        for (var listener : tourFormVisibilityListeners) {
+            listener.onTourFormVisible(visible);
+        }
+    }
+
+    private final ArrayList<TourLogFormVisibilityListener> tourLogFormVisibilityListeners = new ArrayList<>();
+    public void registerTourLogsFormVisibilityListener(TourLogFormVisibilityListener listener) { tourLogFormVisibilityListeners.add(listener); }
+    public void updateTourLogsFormVisibility(boolean visible) {
+        for (var listener : tourLogFormVisibilityListeners) {
+            listener.onLogsFormVisible(visible);
         }
     }
 }

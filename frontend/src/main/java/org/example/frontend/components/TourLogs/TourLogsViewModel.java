@@ -4,14 +4,15 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.example.frontend.base.FormVisibilityListener;
+import org.example.frontend.base.TourFormVisibilityListener;
+import org.example.frontend.base.TourLogFormVisibilityListener;
 import org.example.frontend.data.models.TourLog;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TourLogsViewModel implements FormVisibilityListener {
+public class TourLogsViewModel implements TourLogFormVisibilityListener {
     public ObservableList<FormattedTourLog> formattedTourLogs;
     public BooleanProperty formVisible = new SimpleBooleanProperty(false);
 
@@ -35,7 +36,7 @@ public class TourLogsViewModel implements FormVisibilityListener {
         }
     }
 
-    public void onFormVisible(boolean visible) {
+    public void onLogsFormVisible(boolean visible) {
         this.formVisible.set(visible);
     }
 

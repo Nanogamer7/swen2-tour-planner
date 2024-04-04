@@ -35,7 +35,7 @@ public class TourLogsFormController {
         typeDrowdown.valueProperty().bindBidirectional(viewModel.type);
 
         confirmButton.setOnAction(event -> viewModel.submit());
-        //cancelButton.setOnAction();
+        cancelButton.setOnAction(event -> EventHandler.getInstance().updateTourLogsFormVisibility(false));
 
         typeDrowdown.getItems().setAll(TransportType.values());
 
@@ -66,6 +66,6 @@ public class TourLogsFormController {
             }
         });
 
-        EventHandler.getInstance().registerTourUpdateListener(viewModel);
+        //EventHandler.getInstance().registerTourLogsFormVisibilityListener(viewModel);
     }
 }

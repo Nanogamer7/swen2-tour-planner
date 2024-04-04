@@ -34,8 +34,11 @@ public class TourLogsController implements TourUpdateListener {
         tourLogsForm.visibleProperty().bind(viewModel.formVisible);
         tourLogsForm.managedProperty().bind(viewModel.formVisible);
 
+        tblLogs.visibleProperty().bind(Bindings.not(viewModel.formVisible));
+        tblLogs.managedProperty().bind(Bindings.not(viewModel.formVisible));
 
-        EventHandler.getInstance().registerFormVisibilityListener(viewModel);
+
+        EventHandler.getInstance().registerTourLogsFormVisibilityListener(viewModel);
 
 
         // Bind to table
@@ -49,8 +52,7 @@ public class TourLogsController implements TourUpdateListener {
         tblLogs.setItems(viewModel.formattedTourLogs);
 
         btnAddTourLog.setOnAction(event -> {
-            EventHandler.getInstance().updateFormVisibility(false);
-            EventHandler.getInstance().publishTourUpdateEvent(null);
+            EventHandler.getInstance().updateTourLogsFormVisibility(true);
         });
     }
 

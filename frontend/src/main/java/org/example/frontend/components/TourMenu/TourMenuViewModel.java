@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.example.frontend.EventHandler;
-import org.example.frontend.base.FormVisibilityListener;
+import org.example.frontend.base.TourFormVisibilityListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class TourMenuViewModel implements FormVisibilityListener, TourUpdateListener {
+public class TourMenuViewModel implements TourFormVisibilityListener, TourUpdateListener {
     private final Map<String, Tour> tours = new HashMap<>();  // Map<tourName, Tour>
     public BooleanProperty formVisible = new SimpleBooleanProperty(false);
     public UUID selectedTourUuid = null;
@@ -31,7 +31,7 @@ public class TourMenuViewModel implements FormVisibilityListener, TourUpdateList
         });
     }
 
-    public void onFormVisible(boolean visible) {
+    public void onTourFormVisible(boolean visible) {
         this.formVisible.set(visible);
     }
     public void updateTour(Tour tour) { this.selectedTourUuid = tour == null ? null : tour.uuid(); };
