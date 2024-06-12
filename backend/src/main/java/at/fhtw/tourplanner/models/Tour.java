@@ -1,11 +1,10 @@
 package at.fhtw.tourplanner.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import at.fhtw.tourplanner.Point;
+import at.fhtw.tourplanner.PointConverter;
+import at.fhtw.tourplanner.TransportType;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.hateoas.server.core.Relation;
 
 import java.util.UUID;
 
@@ -14,10 +13,26 @@ import java.util.UUID;
 @Data
 public class Tour {
     @Id
-    @Column
     private UUID id;
-    @Column
     private String name;
-    @Column
     private String description;
+    @Convert(converter = PointConverter.class)
+    private Point startPoint;
+    @Convert(converter = PointConverter.class)
+    private Point endPoint;
+    private TransportType type;
+    @Transient
+    private int distance;
+    @Transient
+    public int getDistance() {
+        // TODO: request from route service
+        return 0;
+    }
+    @Transient
+    private int time;
+    @Transient
+    public int getTime() {
+        // TODO: request from route service
+        return 0;
+    }
 }
