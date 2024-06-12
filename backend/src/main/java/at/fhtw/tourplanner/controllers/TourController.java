@@ -3,8 +3,6 @@ package at.fhtw.tourplanner.controllers;
 import at.fhtw.tourplanner.models.Tour;
 import at.fhtw.tourplanner.services.TourService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +31,13 @@ public class TourController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Tour> createTour(Tour tour) {
+    public ResponseEntity<Tour> createTour(@RequestBody Tour tour) {
         Tour createdTour = tourService.createTour(tour);
         return ResponseEntity.created(URI.create("/tours/" + createdTour.getId().toString())).body(createdTour);
     }
 
     @PutMapping("/")
-    public ResponseEntity<Tour> updateTour(Tour tour) {
+    public ResponseEntity<Tour> updateTour(@RequestBody Tour tour) {
         return ResponseEntity.ok(tourService.updateTour(tour));
     }
 
