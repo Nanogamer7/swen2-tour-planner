@@ -1,14 +1,13 @@
-package at.fhtw.tourplanner.controllers;
+package at.fhtw.tourplanner.services;
 
 import at.fhtw.tourplanner.models.Tour;
-import at.fhtw.tourplanner.services.TourService;
+import at.fhtw.tourplanner.models.TourLog;
+import at.fhtw.tourplanner.repositories.TourLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import javax.swing.text.html.parser.Entity;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +18,7 @@ import java.util.UUID;
 @Validated
 public class TourController {
     private final TourService tourService;
+    private final TourLogService tourLogService;
 
     @GetMapping("/")
     public ResponseEntity<List<Tour>> getAllTours() {
@@ -45,5 +45,15 @@ public class TourController {
     public ResponseEntity<Void> deleteTour(@PathVariable UUID tour_id) {
         tourService.deleteTourById(tour_id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{tour_id}/logs/")
+    public ResponseEntity<List<TourLog>> getTourLogs(@PathVariable UUID tour_id) {
+        return ResponseEntity.ok(tourLogService.findAllOfTour(tour_id));
+    }
+
+    @PostMapping("/{tour_id}/logs/")
+    public ResponseEntity<TourLog> createTourLog(@PathVariable UUID tour_id, @RequestBody TourLog tourLog) {
+        return ResponseEntity.created(URI.create("yes")).body(tourLogService.create(tourLog, tour_id)); // TODO: fix URI
     }
 }
