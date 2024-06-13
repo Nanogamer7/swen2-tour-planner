@@ -33,4 +33,10 @@ public class TourService {
     public void deleteTourById(UUID id) {
         tourRepository.deleteById(id);
     }
+
+    public byte[] generateReport(UUID id) {
+        Tour tour = getTourById(id);
+        // pdf file here
+        return new byte[0];
+    }
 }
