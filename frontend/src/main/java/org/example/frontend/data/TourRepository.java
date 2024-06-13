@@ -2,7 +2,15 @@ package org.example.frontend.data;
 
 import org.example.frontend.data.models.*;
 
+import java.io.*;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.net.http.HttpClient;
 
 public final class TourRepository {
     // temporary singleton until REST server to have singular source for data
@@ -25,23 +33,21 @@ public final class TourRepository {
                 UUID.fromString("ec63faae-e512-11ee-931f-b3892627d62d"),
                 "Korneuburg",
                 "Description for Korneuburg",
-                new Coordinate(0.123, 0.234),
-                new Coordinate(0.234, 0.456),
+                new Coordinate(8.05, 48.125),
+                new Coordinate(8.1, 48.1),
                 50,
                 TransportType.WALK,
-                1200,
-                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
+                100
             ),
             new Tour(
                 UUID.fromString("0e54bffe-e559-11ee-a81a-ebc3d3b4f9e3"),
                 "Mittewald",
                 "Description for Mittewald",
-                new Coordinate(0.333, 0.333),
-                new Coordinate(0.666, 0.666),
+                new Coordinate(8.2, 49.1),
+                new Coordinate(8.25, 49.125),
                 500,
                 TransportType.POGO_STICK,
-                500,
-                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
+                500
             )
     ));
 
@@ -70,8 +76,7 @@ public final class TourRepository {
                 tourInput.to(),
                 new Random().nextInt() % 1000,
                 tourInput.type(),
-                new Random().nextInt() % 1000,
-                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
+                new Random().nextInt() % 1000
         ));
 
         placeholderTourLogs.put(tourUUID, List.of());
@@ -91,8 +96,7 @@ public final class TourRepository {
                 tourInput.to(),
                 new Random().nextInt() % 1000,
                 tourInput.type(),
-                new Random().nextInt() % 1000,
-                "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg"
+                new Random().nextInt() % 1000
         ) : tour);
 
         placeholderTourLogs.get(tourUUID).forEach(tourLog -> new TourLog(
@@ -121,14 +125,39 @@ public final class TourRepository {
         return placeholderTours;
     }
 
-    public String fetchTourImage(UUID uuid){
-        for(var tour : placeholderTours){
-            if(tour.uuid().equals(uuid)){
-                return tour.mapFilename();
+    /**
+     * Downloads the GeoJSON for the tour route. This geojson is saved to a directions.js file in /resources/,
+     * which is ultimately used by our map.html to visually display our route.
+     */
+    public void downloadTourDirectionGeoJson(UUID uuid) throws IOException {
+        Tour selectedTour = null;
+        for(var tour : placeholderTours) {
+            if (tour.uuid().equals(uuid)) {
+                selectedTour = tour;
             }
         }
 
-        throw new RuntimeException("tour with uuid not found in placeholders");
+        try {
+            Path resourcesDirectory = Paths.get("src", "main", "resources", "org", "example", "frontend");
+            Path outputPath = resourcesDirectory.resolve("directions.js");
+
+            System.out.println("Downloading directions geojson from %s\nSaving it to %s".formatted(
+                    selectedTour.getOpenRouteServiceURL(),
+                    outputPath.toAbsolutePath().toString())
+            );
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(selectedTour.getOpenRouteServiceURL()))
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Write response to directions.js
+            Files.writeString(outputPath, "var directions = " + response.body());
+        } catch (Exception e) {
+            throw new IOException(e);
+        }
     }
 
     public List<TourLog> fetchTourLogs(UUID uuid){

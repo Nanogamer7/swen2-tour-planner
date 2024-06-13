@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import org.example.frontend.EventHandler;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.models.Tour;
+import javafx.embed.swing.SwingFXUtils;
 
 public class TourDetailsController implements TourUpdateListener {
     private final TourDetailsViewModel viewModel = new TourDetailsViewModel();
@@ -27,7 +28,7 @@ public class TourDetailsController implements TourUpdateListener {
 
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         // Have this controller listen for changes to the currently selected tour
         EventHandler.getInstance().registerTourUpdateListener(this);
 

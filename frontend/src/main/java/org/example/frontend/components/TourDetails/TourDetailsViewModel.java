@@ -3,6 +3,7 @@ package org.example.frontend.components.TourDetails;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.example.frontend.base.TourUpdateListener;
+import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
 
 import java.util.Locale;
@@ -40,6 +41,10 @@ public class TourDetailsViewModel implements TourUpdateListener {
                 String.format("%02d:%02d:%02d", hours, minutes, seconds)
         );
 
-        mapFilename = tour.mapFilename();
+        try {
+            TourRepository.getInstance().downloadTourDirectionGeoJson(tour.uuid());
+        } catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 }
