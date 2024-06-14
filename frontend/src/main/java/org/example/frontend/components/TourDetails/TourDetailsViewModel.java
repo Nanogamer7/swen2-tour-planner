@@ -40,11 +40,5 @@ public class TourDetailsViewModel implements TourUpdateListener {
         estimatedTime.set(
                 String.format("%02d:%02d:%02d", hours, minutes, seconds)
         );
-
-        try {
-            TourRepository.getInstance().downloadTourDirectionGeoJson(tour.uuid());
-        } catch(Exception e){
-            throw new RuntimeException(e);
-        }
     }
 }

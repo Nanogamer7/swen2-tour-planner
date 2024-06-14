@@ -5,7 +5,6 @@ module org.example.frontend {
     requires org.kordamp.bootstrapfx.core;
     requires static lombok;
     requires java.desktop;
-    requires javafx.swing;
     requires java.net.http;
 
     opens org.example.frontend to javafx.fxml;
