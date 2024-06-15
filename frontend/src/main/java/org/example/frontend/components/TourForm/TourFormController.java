@@ -47,7 +47,7 @@ public class TourFormController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.name);
+                    setText(item.description);
                 }
             }
         });
@@ -60,7 +60,7 @@ public class TourFormController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.name);
+                    setText(item.description);
                 }
             }
         });

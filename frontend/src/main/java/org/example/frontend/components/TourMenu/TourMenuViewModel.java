@@ -27,14 +27,14 @@ public class TourMenuViewModel implements FormVisibilityListener, TourUpdateList
     public void setTours(List<Tour> tours){
         // Transform tour list to Map of format Map<tourName, Tour>
         tours.forEach(tour -> {
-            this.tours.put(tour.name(), tour);
+            this.tours.put(tour.getName(), tour);
         });
     }
 
     public void onFormVisible(boolean visible) {
         this.formVisible.set(visible);
     }
-    public void updateTour(Tour tour) { this.selectedTourUuid = tour == null ? null : tour.uuid(); };
+    public void updateTour(Tour tour) { this.selectedTourUuid = tour == null ? null : tour.getUuid(); };
 
     /**
      * @param name Name from the ListView
