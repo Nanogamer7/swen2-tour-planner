@@ -12,6 +12,8 @@ import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
 
+import java.util.UUID;
+
 public class TourLogsController implements TourUpdateListener {
     private final TourLogsViewModel viewModel = new TourLogsViewModel();
 
@@ -25,11 +27,15 @@ public class TourLogsController implements TourUpdateListener {
     public TableColumn colRating;
     public TableColumn colComment;
 
+
+    private UUID selectedTour = null;
+
     public VBox tourLogsForm;
 
     @FXML
     public void initialize(){
         EventHandler.getInstance().registerTourUpdateListener(this);
+        EventHandler.getInstance().registerTourLogsUpdateListener(this);
 
         tourLogsForm.visibleProperty().bind(viewModel.formVisible);
         tourLogsForm.managedProperty().bind(viewModel.formVisible);
@@ -37,9 +43,7 @@ public class TourLogsController implements TourUpdateListener {
         tblLogs.visibleProperty().bind(Bindings.not(viewModel.formVisible));
         tblLogs.managedProperty().bind(Bindings.not(viewModel.formVisible));
 
-
         EventHandler.getInstance().registerTourLogsFormVisibilityListener(viewModel);
-
 
         // Bind to table
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -59,14 +63,21 @@ public class TourLogsController implements TourUpdateListener {
 
     @Override
     public void updateTour(Tour tour) {
-        if (tour == null) return;
+        if (tour == null) {
+            selectedTour = null;
+            return;
+        }
+        this.selectedTour = tour.uuid();
+        refreshTourLogsList();
+    }
 
-        var tourLogs = TourRepository.getInstance().fetchTourLogs(tour.uuid());
+
+    public void refreshTourLogsList() {
+        var tourLogs = TourRepository.getInstance().fetchTourLogs(selectedTour);
 
         viewModel.updateTourLogs(tourLogs);
 
         tblLogs.setItems(viewModel.formattedTourLogs);
     }
-
 
 }

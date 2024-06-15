@@ -47,12 +47,12 @@ public final class TourRepository {
 
     private final Map<UUID, List<TourLog>> placeholderTourLogs = new HashMap<>(Map.of(
         UUID.fromString("ec63faae-e512-11ee-931f-b3892627d62d"), List.of(
-            new TourLog("1", 1000000, "Comment 1", 1, 100, 100, 1, true),
-            new TourLog("2", 2000000, "Comment 2", 2, 200, 200, 2, false),
-            new TourLog("3", 3000000, "Comment 3", 3, 300, 300, 3, false)
+            new TourLog(UUID.randomUUID(), 1000000, "Comment 1", 1, 100, 100, 1, true),
+            new TourLog(UUID.randomUUID(), 2000000, "Comment 2", 2, 200, 200, 2, false),
+            new TourLog(UUID.randomUUID(), 3000000, "Comment 3", 3, 300, 300, 3, false)
         ),
         UUID.fromString("0e54bffe-e559-11ee-a81a-ebc3d3b4f9e3"), List.of(
-            new TourLog("4", 4000000, "Comment 4", 4, 400, 400, 4, false)
+            new TourLog(UUID.randomUUID(), 4000000, "Comment 4", 4, 400, 400, 4, false)
         )
     ));
 
@@ -96,13 +96,13 @@ public final class TourRepository {
         ) : tour);
 
         placeholderTourLogs.get(tourUUID).forEach(tourLog -> new TourLog(
-                tourLog.getUuid(),
-                tourLog.getTimestamp(),
-                tourLog.getComment(),
-                tourLog.getDifficulty(),
-                tourLog.getDistance(),
-                tourLog.getDuration(),
-                tourLog.getRating(),
+                tourLog.uuid(),
+                tourLog.timestamp(),
+                tourLog.comment(),
+                tourLog.difficulty(),
+                tourLog.distance(),
+                tourLog.duration(),
+                tourLog.rating(),
                 true
         ));
     }
@@ -117,8 +117,17 @@ public final class TourRepository {
     }
 
     // TODO: return if success
-    public void addTourLog(TourLog tourLog, UUID tourUuid) {
-        this.placeholderTourLogs.get(tourUuid).add(tourLog);
+    public void addTourLog(TourLogInput tourLogInput, UUID tourUuid) {
+        this.placeholderTourLogs.get(tourUuid).add(new TourLog(
+                UUID.randomUUID(),
+                tourLogInput.timestamp(),
+                tourLogInput.comment(),
+                tourLogInput.difficulty(),
+                tourLogInput.distance(),
+                tourLogInput.duration(),
+                tourLogInput.rating(),
+                false
+        ));
     }
 
     public List<Tour> fetchTours() {

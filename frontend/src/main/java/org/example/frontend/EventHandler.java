@@ -4,6 +4,7 @@ import org.example.frontend.base.TourFormVisibilityListener;
 import org.example.frontend.base.TourLogFormVisibilityListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.components.TourList.TourListController;
+import org.example.frontend.components.TourLogs.TourLogsController;
 import org.example.frontend.data.models.Tour;
 
 import java.util.ArrayList;
@@ -46,6 +47,19 @@ public class EventHandler {
 
     public void refreshTourList(){
         this.tourListController.refreshToursList();
+    }
+
+
+    public void registerTourLogsUpdateListener(TourUpdateListener listener){
+        tourUpdateListeners.add(listener);
+    }
+    // Refresh tour logs list
+    private TourLogsController tourLogsController;
+    public void registerTourLogsListController(TourLogsController tourLogsController){
+        this.tourLogsController = tourLogsController;
+    }
+    public void refreshTourLogsList(){
+        this.tourLogsController.refreshTourLogsList();
     }
 
 

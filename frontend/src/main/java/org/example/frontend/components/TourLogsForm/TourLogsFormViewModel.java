@@ -6,17 +6,18 @@ import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.UUID;
 
 public class TourLogsFormViewModel implements TourUpdateListener {
-    public ObjectProperty<LocalDate> date = new SimpleObjectProperty<>(LocalDate.now());
+    public LongProperty timestamp = new SimpleLongProperty();
 
-    public DoubleProperty distance = new SimpleDoubleProperty();
-    public ObjectProperty<LocalTime> duration = new SimpleObjectProperty<>(LocalTime.now());
-    public DoubleProperty difficulty = new SimpleDoubleProperty();
-    public DoubleProperty rating = new SimpleDoubleProperty();
+    public IntegerProperty distance = new SimpleIntegerProperty(); //meters
+    public LongProperty duration = new SimpleLongProperty();
+    public IntegerProperty difficulty = new SimpleIntegerProperty();
+    public IntegerProperty rating = new SimpleIntegerProperty();
     public StringProperty comment = new SimpleStringProperty();
     //public ObjectProperty<TransportType> type = new SimpleObjectProperty<>();
 
@@ -24,7 +25,11 @@ public class TourLogsFormViewModel implements TourUpdateListener {
 
     @Override
     public void updateTour(Tour tour) {
-
+        if (tour == null) {
+            this.tourUuid = null;
+            return;
+        }
+        this.tourUuid = tour.uuid();
     }
 
     /*
@@ -70,14 +75,16 @@ public class TourLogsFormViewModel implements TourUpdateListener {
         }*/
 
         TourRepository.getInstance().addTourLog(new TourLogInput(
-                this.date.get(),
+                Instant.now().getEpochSecond(),
                 this.comment.get(),
                 this.difficulty.get(),
                 this.distance.get(),
                 this.duration.get(),
                 this.rating.get()
-        ));
+        ), this.tourUuid);
+
         EventHandler.getInstance().updateTourLogsFormVisibility(false);
+        EventHandler.getInstance().refreshTourLogsList();
         // TODO: refresh logs list
     }
 

@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public record TourLog(
         UUID uuid,
-        Long timestamp,
+        long timestamp, // unix epoch
         String comment,
-        Integer difficulty,
-        Long distance,
-        Integer duration,
-        Integer rating,
+        int difficulty,
+        int distance,
+        long duration,
+        int rating,
         Boolean outdated) {
 }

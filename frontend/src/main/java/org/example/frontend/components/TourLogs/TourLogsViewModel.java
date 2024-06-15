@@ -11,6 +11,7 @@ import org.example.frontend.data.models.TourLog;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class TourLogsViewModel implements TourLogFormVisibilityListener {
     public ObservableList<FormattedTourLog> formattedTourLogs;
@@ -18,9 +19,25 @@ public class TourLogsViewModel implements TourLogFormVisibilityListener {
 
 
 
-    public static class FormattedTourLog extends TourLog {
+    public static class FormattedTourLog {
+        public final UUID uuid;
+        public final long timestamp;
+        private final String comment;
+        private final int difficulty;
+        private final int distance;
+        private final long duration;
+        private final int rating;
+        private final boolean outdated;
+
         public FormattedTourLog(TourLog log) {
-            super(log.getUuid(), log.getTimestamp(), log.getComment(), log.getDifficulty(), log.getDistance(), log.getDuration(), log.getRating(), log.getOutdated());
+            uuid = log.uuid();
+            timestamp = log.timestamp();
+            comment = log.comment();
+            difficulty = log.difficulty();
+            distance = log.distance();
+            duration = log.duration();
+            rating = log.rating();
+            outdated = log.outdated();
         }
 
         public String getDate() {
