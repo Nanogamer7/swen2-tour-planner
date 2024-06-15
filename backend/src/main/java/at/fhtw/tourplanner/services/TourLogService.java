@@ -1,8 +1,8 @@
 package at.fhtw.tourplanner.services;
 
 import at.fhtw.tourplanner.models.TourLog;
-import at.fhtw.tourplanner.repositories.TourLogRepository;
-import at.fhtw.tourplanner.repositories.TourRepository;
+import at.fhtw.tourplanner.data.repositories.TourLogRepository;
+import at.fhtw.tourplanner.data.repositories.TourRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
