@@ -1,59 +1,31 @@
 package org.example.frontend.data.models;
 
-public class TourLog{
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+@RequiredArgsConstructor // for some reason data doesn't add this here
+@AllArgsConstructor
+public class TourLog {
+    @JsonProperty("id")
     protected String uuid;
 
     protected Long timestamp;
     protected String comment;
     protected Integer difficulty;
     protected Long distance;
+    @JsonProperty("time")
     protected Integer duration;
     protected Integer rating;
 
     protected Boolean outdated;
 
 
-    public TourLog(String uuid, long timestamp, String comment, int difficulty, long distance, int duration, int rating, boolean outdated) {
-        this.uuid = uuid;
-        this.timestamp = timestamp;
-        this.comment = comment;
-        this.difficulty = difficulty;
-        this.distance = distance;
-        this.duration = duration;
-        this.rating = rating;
-        this.outdated = outdated;
-    }
-
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public Integer getDifficulty() {
-        return difficulty;
-    }
-
-    public Long getDistance() {
-        return distance;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public Boolean getOutdated() {
-        return outdated;
-    }
 }

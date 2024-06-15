@@ -4,6 +4,9 @@ module org.example.frontend {
 
     requires org.kordamp.bootstrapfx.core;
     requires static lombok;
+    requires java.net.http;
+    requires jdk.httpserver;
+    requires com.fasterxml.jackson.databind;
 
     opens org.example.frontend to javafx.fxml;
     exports org.example.frontend;

@@ -23,23 +23,21 @@ public class TourDetailsViewModel implements TourUpdateListener {
 
     @Override
     public void updateTour(Tour tour) {
-        name.set( tour.name() );
-        description.set( tour.description() );
-        from.set( String.format("%s,%s", tour.from().latitude(), tour.from().longitude()) );
-        to.set( String.format("%s, %s", tour.to().latitude(), tour.to().longitude()) );
-        distance.set( String.format("%dm", tour.distance()) );
-        type.set( tour.type().name); // enum now has member vars, not ideal yet
+        name.set( tour.getName() );
+        description.set( tour.getDescription() );
+        from.set( String.format("%s,%s", tour.getFrom_lat(), tour.getFrom_long()) );
+        to.set( String.format("%s, %s", tour.getTo_lat(), tour.getTo_long()) );
+        distance.set( String.format("%dm", tour.getDistance()) );
+        type.set( tour.getType().description); // enum now has member vars, not ideal yet
         // type.set( tour.type().name().toLowerCase(Locale.ROOT) );
 
         // Calculate time
-        var hours = Math.floorDiv(tour.estimated_time(), 60*60);
-        var minutes = Math.floorDiv(tour.estimated_time(), 60) % 60;
-        var seconds = tour.estimated_time() % 60;
+        var hours = Math.floorDiv(tour.getEstimated_time(), 60*60);
+        var minutes = Math.floorDiv(tour.getEstimated_time(), 60) % 60;
+        var seconds = tour.getEstimated_time() % 60;
 
         estimatedTime.set(
                 String.format("%02d:%02d:%02d", hours, minutes, seconds)
         );
-
-        mapFilename = tour.mapFilename();
     }
 }

@@ -4,7 +4,6 @@ import javafx.beans.property.*;
 import org.example.frontend.EventHandler;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
-import org.example.frontend.data.models.Coordinate;
 import org.example.frontend.data.models.Tour;
 import org.example.frontend.data.models.TourInput;
 import org.example.frontend.data.models.TransportType;
@@ -39,16 +38,16 @@ public class TourFormViewModel implements TourUpdateListener {
             return;
         }
 
-        tourUuid = tour.uuid();
+        tourUuid = tour.getUuid();
 
         // implicitly new tour
-        name.set(tour.name());
-        description.set(tour.description());
-        startLatitude.set(tour.from().latitude());
-        startLongitude.set(tour.from().longitude());
-        endLatitude.set(tour.to().latitude());
-        endLongitude.set(tour.to().longitude());
-        type.set(tour.type());
+        name.set(tour.getName());
+        description.set(tour.getDescription());
+        startLatitude.set(tour.getFrom_lat());
+        startLongitude.set(tour.getFrom_long());
+        endLatitude.set(tour.getFrom_lat());
+        endLongitude.set(tour.getFrom_long());
+        type.set(tour.getType());
     }
 
     public void submit() {
@@ -61,7 +60,7 @@ public class TourFormViewModel implements TourUpdateListener {
         }
 
         EventHandler.getInstance().updateFormVisibility(false);
-        EventHandler.getInstance().publishTourUpdateEvent(TourRepository.getInstance().fetchTours().stream().filter(t -> t.uuid().equals(tourUuid)).findFirst().get());
+        EventHandler.getInstance().publishTourUpdateEvent(TourRepository.getInstance().fetchTours().stream().filter(t -> t.getUuid().equals(tourUuid)).findFirst().get());
         EventHandler.getInstance().refreshTourList();
     }
 
@@ -69,20 +68,24 @@ public class TourFormViewModel implements TourUpdateListener {
         var tour = new TourInput(
                 this.name.get(),
                 this.description.get(),
-                new Coordinate(this.startLatitude.get(), this.startLongitude.get()),
-                new Coordinate(this.endLatitude.get(), this.endLongitude.get()),
+                this.startLatitude.get(),
+                this.startLongitude.get(),
+                this.endLatitude.get(),
+                this.endLongitude.get(),
                 this.type.get()
         );
 
-        return TourRepository.getInstance().createTour(tour);
+        return TourRepository.getInstance().createTour(tour).getUuid();
     }
 
     public void modifyTour(UUID tourUuid) {
         var tour = new TourInput(
                 this.name.get(),
                 this.description.get(),
-                new Coordinate(this.startLatitude.get(), this.startLongitude.get()),
-                new Coordinate(this.endLatitude.get(), this.endLongitude.get()),
+                this.startLatitude.get(),
+                this.startLongitude.get(),
+                this.endLatitude.get(),
+                this.endLongitude.get(),
                 this.type.get()
         );
 
