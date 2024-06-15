@@ -7,6 +7,7 @@ module org.example.frontend {
     requires java.net.http;
     requires jdk.httpserver;
     requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.datatype.jsr310;
 
     opens org.example.frontend to javafx.fxml;
     exports org.example.frontend;
@@ -18,4 +19,5 @@ module org.example.frontend {
     exports org.example.frontend.data.models;
     exports org.example.frontend.base;
     opens org.example.frontend.components.TourMenu to javafx.fxml;
+    exports org.example.frontend.components.TourLogsForm;
 }

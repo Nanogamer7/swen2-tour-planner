@@ -36,7 +36,7 @@ public class TourListController implements TourUpdateListener {
 
         var tour = viewModel.getTourFromName(newValue);
         EventHandler.getInstance().publishTourUpdateEvent(tour);
-        EventHandler.getInstance().updateFormVisibility(false);
+        EventHandler.getInstance().updateTourFormVisibility(false);
     }
 
     @Override

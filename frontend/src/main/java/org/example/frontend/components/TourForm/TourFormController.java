@@ -34,7 +34,7 @@ public class TourFormController {
         typeDrowdown.valueProperty().bindBidirectional(viewModel.type);
 
         confirmButton.setOnAction(event -> viewModel.submit());
-        //cancelButton.setOnAction();
+        cancelButton.setOnAction(event -> EventHandler.getInstance().updateTourFormVisibility(false));
 
         typeDrowdown.getItems().setAll(TransportType.values());
 

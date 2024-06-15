@@ -3,6 +3,8 @@ package org.example.frontend.data;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.frontend.data.models.*;
 
@@ -34,11 +36,12 @@ public final class TourRepository {
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpResponse<String> response;
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/")) //TODO: config file for backend address
-                    .POST(HttpRequest.BodyPublishers.ofString(new ObjectMapper().writeValueAsString(tourInput)))
+                    .POST(HttpRequest.BodyPublishers.ofString(JsonMapper.builder().build().writeValueAsString(tourInput)))
+                    .header("Content-Type", "application/json; charset=utf-8")
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return new ObjectMapper().readValue(response.body(), Tour.class);
+            return JsonMapper.builder().build().readValue(response.body(), Tour.class);
         } catch (Exception e) {
             e.printStackTrace();
             // TODO: handling
@@ -52,11 +55,12 @@ public final class TourRepository {
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpResponse<String> response;
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + tourUUID)) //TODO: config file for backend address
-                    .PUT(HttpRequest.BodyPublishers.ofString(new ObjectMapper().writeValueAsString(tourInput)))
+                    .PUT(HttpRequest.BodyPublishers.ofString(JsonMapper.builder().build().writeValueAsString(tourInput)))
+                    .header("Content-Type", "application/json; charset=utf-8")
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return new ObjectMapper().readValue(response.body(), Tour.class);
+            return JsonMapper.builder().build().readValue(response.body(), Tour.class);
         } catch (Exception e) {
             e.printStackTrace();
             // TODO: handling
@@ -71,6 +75,7 @@ public final class TourRepository {
             HttpResponse<String> response;
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + tourUUID)) //TODO: config file for backend address
                     .DELETE()
+                    .header("Content-Type", "application/json; charset=utf-8")
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -80,16 +85,37 @@ public final class TourRepository {
         }
     }
 
+    // TODO: return if success
+    public TourLog addTourLog(TourLogInput tourLogInput, UUID tourUuid) {
+
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpResponse<String> response;
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + tourUuid + "/logs/")) //TODO: config file for backend address
+                    .POST(HttpRequest.BodyPublishers.ofString(JsonMapper.builder().addModule(new JavaTimeModule()).build().writeValueAsString(tourLogInput)))
+                    .header("Content-Type", "application/json; charset=utf-8")
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return JsonMapper.builder().addModule(new JavaTimeModule()).build().readValue(response.body(), TourLog.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handling
+        }
+
+        return null;
+    }
+
     public List<Tour> fetchTours() {
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpResponse<String> response;
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/")) //TODO: config file for backend address
                     .GET()
+                    .header("Content-Type", "application/json; charset=utf-8")
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return List.of(new ObjectMapper().readValue(response.body(), Tour[].class));
+            return List.of(JsonMapper.builder().build().readValue(response.body(), Tour[].class));
         } catch (Exception e) {
             e.printStackTrace();
             // TODO: handling
@@ -107,11 +133,12 @@ public final class TourRepository {
             HttpResponse<String> response;
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + uuid + "/logs/")) //TODO: config file for backend address
                     .GET()
+                    .header("Content-Type", "application/json; charset=utf-8")
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return List.of(new ObjectMapper().readValue(response.body(), TourLog[].class));
+            return List.of(JsonMapper.builder().addModule(new JavaTimeModule()).build().readValue(response.body(), TourLog[].class));
         } catch (Exception e) {
             e.printStackTrace();
             // TODO: handling

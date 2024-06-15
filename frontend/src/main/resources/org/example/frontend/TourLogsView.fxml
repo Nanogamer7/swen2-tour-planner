@@ -28,4 +28,7 @@
             <TableColumn fx:id="colComment" text="Comment" prefWidth="400"/>
         </columns>
     </TableView>
+    <VBox fx:id="tourLogsForm">
+        <fx:include source="TourLogsFormView.fxml" />
+    </VBox>
 </VBox>

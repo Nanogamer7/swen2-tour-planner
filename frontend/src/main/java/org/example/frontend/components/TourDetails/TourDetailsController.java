@@ -43,6 +43,8 @@ public class TourDetailsController implements TourUpdateListener {
 
         // Route tab (TourLogs are in their own component)
         imgTourMap.setImage(new Image(viewModel.mapFilename));
+
+
     }
 
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="org.example.frontend.components.TourLogsForm.TourLogsFormController"
+          prefHeight="400.0" prefWidth="600.0">
+
+    <Label text="Create new log" GridPane.columnSpan="2" style="-fx-font-size: 20pt;"/>
+
+    <Label text="Duration (seconds):" GridPane.rowIndex="2"/>
+    <TextField fx:id="durationField" promptText="HH:mm:ss" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="Distance:" GridPane.rowIndex="3"/>
+    <TextField fx:id="distanceField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <Label text="Difficulty:" GridPane.rowIndex="4"/>
+    <TextField fx:id="difficultyField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <Label text="Rating:" GridPane.rowIndex="5"/>
+    <TextField fx:id="ratingField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <Label text="Comment:" GridPane.rowIndex="6"/>
+    <TextField fx:id="commentField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+    <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
+        <Button text="Confirm" fx:id="confirmButton"/>
+        <Button text="Cancel" fx:id="cancelButton"/>
+    </HBox>
+
+</GridPane>

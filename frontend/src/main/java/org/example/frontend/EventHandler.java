@@ -1,11 +1,14 @@
 package org.example.frontend;
 
-import org.example.frontend.base.FormVisibilityListener;
+import org.example.frontend.base.TourFormVisibilityListener;
+import org.example.frontend.base.TourLogFormVisibilityListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.components.TourList.TourListController;
+import org.example.frontend.components.TourLogs.TourLogsController;
 import org.example.frontend.data.models.Tour;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * A mediator to pass UI updates between components
@@ -48,12 +51,34 @@ public class EventHandler {
     }
 
 
+    public void registerTourLogsUpdateListener(TourUpdateListener listener){
+        tourUpdateListeners.add(listener);
+    }
+    // Refresh tour logs list
+    private TourLogsController tourLogsController;
+    public void registerTourLogsListController(TourLogsController tourLogsController){
+        this.tourLogsController = tourLogsController;
+    }
 
-    private final ArrayList<FormVisibilityListener> formVisibilityListeners = new ArrayList<>();
-    public void registerFormVisibilityListener(FormVisibilityListener listener) { formVisibilityListeners.add(listener); }
-    public void updateFormVisibility(boolean visible) {
-        for (var listener : formVisibilityListeners) {
-            listener.onFormVisible(visible);
+    public void refreshTourLogsList(){
+        Optional.ofNullable(this.tourLogsController).ifPresent(TourLogsController::refreshTourLogsList);
+    }
+
+
+
+    private final ArrayList<TourFormVisibilityListener> tourFormVisibilityListeners = new ArrayList<>();
+    public void registerTourFormVisibilityListener(TourFormVisibilityListener listener) { tourFormVisibilityListeners.add(listener); }
+    public void updateTourFormVisibility(boolean visible) {
+        for (var listener : tourFormVisibilityListeners) {
+            listener.onTourFormVisible(visible);
+        }
+    }
+
+    private final ArrayList<TourLogFormVisibilityListener> tourLogFormVisibilityListeners = new ArrayList<>();
+    public void registerTourLogsFormVisibilityListener(TourLogFormVisibilityListener listener) { tourLogFormVisibilityListeners.add(listener); }
+    public void updateTourLogsFormVisibility(boolean visible) {
+        for (var listener : tourLogFormVisibilityListeners) {
+            listener.onLogsFormVisible(visible);
         }
     }
 }
