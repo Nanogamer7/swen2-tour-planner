@@ -6,9 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ListView xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-        fx:controller="org.example.frontend.components.TourList.TourListController"
-        VBox.vgrow="ALWAYS"
-        fx:id="lvTourNames"
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.frontend.components.TourList.TourListController"
 >
-</ListView>
+    <TextField onKeyPressed="#onSearch" fx:id="txtSearchField" promptText="Suche"></TextField>
+    <ListView
+            VBox.vgrow="ALWAYS"
+            fx:id="lvTourNames"
+    >
+    </ListView>
+</VBox>
