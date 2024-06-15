@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchController {
     //private final SearchService searchService;
 
-
     public ResponseEntity<?> getLocation(/*@RequestParam String searchText*/) {
         /*
         TODO: Implement search/autocomplete function according to OpenRouteService and forward

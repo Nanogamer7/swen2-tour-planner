@@ -3,6 +3,7 @@ package at.fhtw.tourplanner.services;
 import at.fhtw.tourplanner.models.Tour;
 import at.fhtw.tourplanner.models.TourLog;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -59,5 +60,10 @@ public class TourController {
     @GetMapping("/{tour_id}/report")
     public ResponseEntity<byte[]> getReport(@PathVariable UUID tour_id) {
         return ResponseEntity.ok(tourService.generateReport(tour_id));
+    }
+
+    @GetMapping("/{tour_id}/route")
+    public ResponseEntity<String> getRoute(@PathVariable UUID tour_id) {
+        return ResponseEntity.ok(tourService.getTourRouteInformationById(tour_id));
     }
 }
