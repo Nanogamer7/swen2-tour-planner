@@ -3,11 +3,11 @@ package at.fhtw.tourplanner.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -23,8 +23,9 @@ public class TourLog {
     @JoinColumn(name = "tour_id", nullable = false)
     @JsonIgnore
     private Tour tour;
-    @Column(name = "\"timestamp\"", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Instant timestamp;
+    @CreationTimestamp
+    @Column(name = "\"timestamp\"")
+    private Timestamp timestamp;
     private Integer difficulty;
     private Integer distance;
     @Column(name = "\"time\"")
