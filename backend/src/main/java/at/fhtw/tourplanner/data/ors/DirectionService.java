@@ -47,6 +47,10 @@ public class DirectionService {
         return Pair.of((int) summary.getDouble("duration"), (int) summary.getDouble("distance"));
     }
 
+    public JSONObject getRouteInformation(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude) throws IOException, InterruptedException {
+        return getJSson(type, startLatitude, startLongitude, endLatitude, endLongitude).getJSONArray("routes").getJSONObject(0);
+    }
+
     private JSONObject getJSson(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude) throws IOException, InterruptedException {
         JSONArray coordinates = new JSONArray().put(
                 new JSONArray()

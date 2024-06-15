@@ -10,7 +10,7 @@ tags:
   - name: logs
 
 paths:
-  /tours:
+  /tours/:
     post:
       summary: Creates a new tour
       description: Creates a new tour with the associated data
@@ -102,7 +102,7 @@ paths:
         '404':
           description: Tour does not exist
 
-  /tours/{tour_id}/logs:
+  /tours/{tour_id}/logs/:
     get:
       summary: Returns all logs of specified tour
       description: Returns a list containing all logs associated with the given tour-id
@@ -148,7 +148,7 @@ paths:
         '404':
           description: Tour does not exist
 
-  /logs:
+  /logs/:
     put:
       summary: Modifies the specified log entry
       description: Changes the log entry associated with the give log-id to match the new data
@@ -265,7 +265,7 @@ components:
           example: 16.37732
         type:
           type: string
-          enum: [walk, bike, pogo-stick]
+          enum: [driving-car, driving-hgv, cycling-regular, cycling-road, cycling-mountain, cycling-electric, foot-walking, foot-hiking, wheelchair]
         distance:
           type: integer
           description: in meters

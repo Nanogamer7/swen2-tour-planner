@@ -4,6 +4,7 @@ import at.fhtw.tourplanner.data.ors.DirectionService;
 import at.fhtw.tourplanner.models.Tour;
 import at.fhtw.tourplanner.data.repositories.TourRepository;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
@@ -62,5 +63,17 @@ public class TourService {
         Tour tour = getTourById(id);
         // pdf file here
         return new byte[0];
+    }
+
+    public String getTourRouteInformationById(UUID id) {
+        Tour tour = getTourById(id);
+        try {
+            return directionService.getRouteInformation(tour.getType(), tour.getStart_lat(), tour.getStart_long(), tour.getEnd_lat(), tour.getEnd_long()).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // http 500 do nothing
+        }
+
+        return "";
     }
 }
