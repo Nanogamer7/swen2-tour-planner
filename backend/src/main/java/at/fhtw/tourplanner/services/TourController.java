@@ -4,6 +4,7 @@ import at.fhtw.tourplanner.models.Tour;
 import at.fhtw.tourplanner.models.TourLog;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +66,11 @@ public class TourController {
 
     @GetMapping("/{tour_id}/report")
     public ResponseEntity<byte[]> getReport(@PathVariable UUID tour_id) {
-        return ResponseEntity.ok(tourService.generateReport(tour_id));
+        byte[] pdfReport = tourService.generateReport(tour_id);
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=report.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfReport);
     }
 
     @GetMapping("/{tour_id}/route")
@@ -73,3 +78,4 @@ public class TourController {
         return ResponseEntity.ok(tourService.getTourRouteInformationById(tour_id));
     }
 }
+
