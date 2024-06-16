@@ -36,7 +36,7 @@ public class TourDetailsViewModel implements TourUpdateListener {
     public void updateTour(Tour tour) {
         name.set( tour.getName() );
         description.set( tour.getDescription() );
-        from.set( String.format("%s,%s", tour.getFrom_lat(), tour.getFrom_long()) );
+        from.set( String.format("%s, %s", tour.getFrom_lat(), tour.getFrom_long()) );
         to.set( String.format("%s, %s", tour.getTo_lat(), tour.getTo_long()) );
         distance.set( String.format("%dm", tour.getDistance()) );
         type.set( tour.getType().description); // enum now has member vars, not ideal yet
