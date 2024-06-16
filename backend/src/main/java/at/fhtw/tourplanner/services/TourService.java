@@ -1,9 +1,9 @@
 package at.fhtw.tourplanner.services;
 
 import at.fhtw.tourplanner.data.ors.DirectionService;
+import at.fhtw.tourplanner.data.repositories.TourRepository;
 import at.fhtw.tourplanner.models.Tour;
 import at.fhtw.tourplanner.models.TourLog;
-import at.fhtw.tourplanner.data.repositories.TourRepository;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -44,7 +44,7 @@ public class TourService {
         return addTimeDistanceInfo(tourRepository.save(tour));
     }
 
-    private Tour addTimeDistanceInfo(Tour tour) {
+    public Tour addTimeDistanceInfo(Tour tour) {
         try {
             Pair<Integer, Integer> timeDist = directionService.getTimeDistance(
                     tour.getType(),

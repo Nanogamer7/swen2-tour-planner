@@ -8,7 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.frontend.data.models.*;
 import org.json.JSONObject;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.net.URI;
 import java.net.http.HttpRequest;
@@ -23,6 +24,7 @@ public final class TourRepository {
     // temporary singleton until REST server to have singular source for data
 
     private static TourRepository INSTANCE;
+    private static final Logger logger = LogManager.getLogger(TourRepository.class);
     private TourRepository() {
     }
 
@@ -48,7 +50,7 @@ public final class TourRepository {
             return JsonMapper.builder().build().readValue(response.body(), Tour.class);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to create tour", e);
         }
 
         return null;
@@ -67,7 +69,7 @@ public final class TourRepository {
             return JsonMapper.builder().build().readValue(response.body(), Tour.class);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to modify tour with ID: " + tourUUID, e);
         }
 
         return null;
@@ -86,7 +88,7 @@ public final class TourRepository {
             return JsonMapper.builder().build().readValue(response.body(), Tour.class);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to modify log with ID: " + logUUID, e);
         }
 
         return null;
@@ -102,9 +104,10 @@ public final class TourRepository {
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.info("Successfully deleted tour with ID: " + tourUUID);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to delete tour with ID: " + tourUUID, e);
         }
     }
 
@@ -118,9 +121,10 @@ public final class TourRepository {
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.info("Successfully deleted log with ID: " + logUUID);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to delete log with ID: " + logUUID, e);
         }
     }
 
@@ -138,7 +142,7 @@ public final class TourRepository {
             return JsonMapper.builder().addModule(new JavaTimeModule()).build().readValue(response.body(), TourLog.class);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to add tour log for tour with ID: " + tourUuid, e);
         }
 
         return null;
@@ -157,7 +161,7 @@ public final class TourRepository {
             return List.of(JsonMapper.builder().build().readValue(response.body(), Tour[].class));
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to fetch tours", e);
         }
 
         return List.of();
@@ -176,7 +180,7 @@ public final class TourRepository {
             return new JSONObject(response.body());
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to fetch tour JSON for tour with ID: " + tourUUID, e);
         }
 
         return null;
@@ -206,8 +210,8 @@ public final class TourRepository {
              // Write response to directions.js
              Files.writeString(outputPath, "var directions = " + response.body());
          } catch (Exception e) {
-             // TODO: handling
              e.printStackTrace();
+             logger.error("Failed to download tour direction GeoJson for tour with ID: " + uuid, e);
          }
     }
 
@@ -228,7 +232,7 @@ public final class TourRepository {
             return List.of(JsonMapper.builder().addModule(new JavaTimeModule()).build().readValue(response.body(), TourLog[].class));
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to fetch tour logs for tour with ID: " + uuid, e);
         }
 
         return List.of();
@@ -246,7 +250,7 @@ public final class TourRepository {
             return response.body();
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handling
+            logger.error("Failed to fetch PDF report for tour with ID: " + uuid, e);
         }
 
         return null;
