@@ -1,13 +1,22 @@
 package org.example.frontend.components.TourForm;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import javafx.beans.property.*;
+import javafx.stage.FileChooser;
 import org.example.frontend.EventHandler;
+import org.example.frontend.MainWindow;
 import org.example.frontend.base.TourUpdateListener;
+import org.example.frontend.components.TourDetails.FileType;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
 import org.example.frontend.data.models.TourInput;
 import org.example.frontend.data.models.TransportType;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 public class TourFormViewModel implements TourUpdateListener {
@@ -24,30 +33,32 @@ public class TourFormViewModel implements TourUpdateListener {
     @Override
     public void updateTour(Tour tour) {
         if (tour == null) {
+            tour = new Tour();
             tourUuid = null;
-
-            // implicitly new tour
-            name.set("");
-            description.set("");
-            startLatitude.set(0);
-            startLongitude.set(0);
-            endLatitude.set(0);
-            endLongitude.set(0);
-            type.set(null);
-
-            return;
         }
 
         tourUuid = tour.getUuid();
 
         // implicitly new tour
-        name.set(tour.getName());
-        description.set(tour.getDescription());
-        startLatitude.set(tour.getFrom_lat());
-        startLongitude.set(tour.getFrom_long());
-        endLatitude.set(tour.getTo_lat());
-        endLongitude.set(tour.getTo_long());
-        type.set(tour.getType());
+        this.setFields(
+                tour.getName(),
+                tour.getDescription(),
+                tour.getFrom_lat(),
+                tour.getFrom_long(),
+                tour.getTo_lat(),
+                tour.getTo_long(),
+                tour.getType()
+        );
+    }
+
+    private void setFields(String name, String description, double startLatitude, double startLongitude, double endLatitude, double endLongitude, TransportType type) {
+        this.name.set(name);
+        this.description.set(description);
+        this.startLatitude.set(startLatitude);
+        this.startLongitude.set(startLongitude);
+        this.endLatitude.set(endLatitude);
+        this.endLongitude.set(endLongitude);
+        this.type.set(type);
     }
 
     public void submit() {
@@ -101,5 +112,30 @@ public class TourFormViewModel implements TourUpdateListener {
         );
 
         TourRepository.getInstance().modifyTour(tour, tourUuid);
+    }
+
+    public void importFromFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(FileType.JSON.getExtensionInfo(), FileType.JSON.getExtension()));
+        fileChooser.setTitle("Select Tour");
+
+        File file = fileChooser.showOpenDialog(MainWindow.getPrimaryStage());
+
+        if (file == null || !file.exists()) {
+            // user clicked cancel or file does not exist
+            return;
+        }
+
+        Tour tour;
+
+        try {
+            tour = JsonMapper.builder().build().readValue(file, Tour.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        tour.setUuid(null);
+        this.updateTour(tour);
     }
 }

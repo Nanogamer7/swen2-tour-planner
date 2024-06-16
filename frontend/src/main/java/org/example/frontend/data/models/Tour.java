@@ -17,19 +17,19 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Tour {
        @JsonProperty("id")
-       private UUID uuid;
-       private String name;
-       private String description;
+       private UUID uuid = null;
+       private String name = "";
+       private String description = "";
        @JsonProperty("start_lat")
-       private double from_lat;
+       private double from_lat = 0;
        @JsonProperty("start_long")
-       private double from_long;
+       private double from_long = 0;
        @JsonProperty("end_lat")
-       private double to_lat;
+       private double to_lat = 0;
        @JsonProperty("end_long")
-       private double to_long;
+       private double to_long = 0;
        private long distance; // in meters
-       private TransportType type;
+       private TransportType type = null;
        @JsonProperty("time")
        private long estimated_time; // in seconds
 }

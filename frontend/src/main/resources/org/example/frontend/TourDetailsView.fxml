@@ -14,7 +14,8 @@
 
     <Tab text="General">
         <GridPane hgap="5" vgap="5" style="-fx-padding: 10;">
-            <Button text="Download .pdf" fx:id="pdfButton" GridPane.columnIndex="0"/>
+            <Button text="Download .pdf" fx:id="pdfButton" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Button text="Export .json" fx:id="exportButton" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
             <Label text="Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <Label fx:id="lblName" GridPane.columnIndex="1" GridPane.rowIndex="1" />

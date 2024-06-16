@@ -23,6 +23,7 @@ public class TourFormController {
     public Button confirmButton;
     public Button cancelButton;
     public Button swapButton;
+    public Button importButton;
 
     @FXML
     public void initialize() {
@@ -38,6 +39,7 @@ public class TourFormController {
 
         confirmButton.setOnAction(event -> viewModel.submit());
         cancelButton.setOnAction(event -> EventHandler.getInstance().updateTourFormVisibility(false));
+        importButton.setOnAction(event -> viewModel.importFromFile());
 
         typeDrowdown.getItems().setAll(TransportType.values());
 

@@ -9,6 +9,7 @@ module org.example.frontend {
     requires jdk.httpserver;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.datatype.jsr310;
+    requires org.json;
 
     opens org.example.frontend to javafx.fxml;
     exports org.example.frontend;

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.frontend.data.models.*;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.URI;
@@ -160,6 +161,25 @@ public final class TourRepository {
         }
 
         return List.of();
+    }
+
+    public JSONObject getTourJSON(UUID tourUUID) {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpResponse<String> response;
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + tourUUID)) //TODO: config file for backend address
+                    .GET()
+                    .header("Content-Type", "application/json; charset=utf-8")
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return new JSONObject(response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handling
+        }
+
+        return null;
     }
 
      /**
