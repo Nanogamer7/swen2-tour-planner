@@ -9,6 +9,12 @@ import org.example.frontend.EventHandler;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.models.Tour;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.UUID;
+
 public class TourDetailsController implements TourUpdateListener {
     private final TourDetailsViewModel viewModel = new TourDetailsViewModel();
 
@@ -27,7 +33,7 @@ public class TourDetailsController implements TourUpdateListener {
 
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         // Have this controller listen for changes to the currently selected tour
         EventHandler.getInstance().registerTourUpdateListener(this);
 
@@ -53,5 +59,39 @@ public class TourDetailsController implements TourUpdateListener {
 
         // Done manually as <Image> doesn't support StringProperties for url
         imgTourMap.setImage(new Image(viewModel.mapFilename));
+    }
+
+    @FXML
+    public void downloadPDF() {
+        try {
+            UUID tourId = viewModel.getTourId();
+            if (tourId == null) {
+                System.out.println("No tour selected.");
+                return;
+            }
+
+            String pdfUrl = "http://localhost:8080/tours/" + tourId + "/report";
+
+            HttpURLConnection connection = (HttpURLConnection) new URL(pdfUrl).openConnection();
+            connection.setRequestMethod("GET");
+
+            InputStream inputStream = connection.getInputStream();
+
+            FileOutputStream fileOutputStream = new FileOutputStream("TourReport_" + tourId + ".pdf");
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                fileOutputStream.write(buffer, 0, bytesRead);
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+
+            System.out.println("PDF downloaded successfully.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Failed to download PDF.");
+        }
     }
 }

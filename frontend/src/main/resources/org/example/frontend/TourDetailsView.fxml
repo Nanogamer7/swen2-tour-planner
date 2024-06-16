@@ -35,6 +35,8 @@
 
             <Label text="Estimated Time" GridPane.columnIndex="0" GridPane.rowIndex="6" />
             <Label fx:id="lblEstimatedTime" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+            <Button text="Download PDF" fx:id="btnDownloadPdf" GridPane.columnIndex="0" GridPane.rowIndex="7" onAction="#downloadPDF"/>
         </GridPane>
     </Tab>
 

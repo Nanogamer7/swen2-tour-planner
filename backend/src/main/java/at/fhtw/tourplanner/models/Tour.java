@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tour {
+    @Getter
     @Id
     @GeneratedValue
     private UUID id;
@@ -44,4 +46,8 @@ public class Tour {
         // TODO: request from route service
         return 0;
     }
+    public UUID getId() {
+        return id;
+    }
+
 }
