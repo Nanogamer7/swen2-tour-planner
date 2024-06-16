@@ -73,6 +73,10 @@ public class TourService {
 
     public byte[] generateReport(UUID id) {
         Tour tour = getTourById(id);
+        if (tour == null) {
+            logger.error("Tour with ID " + id + " not found.");
+            throw new RuntimeException("Tour not found");
+        }
         List<TourLog> tourLogs = tourLogService.findAllOfTour(id);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

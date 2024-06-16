@@ -25,6 +25,11 @@ public class TourDetailsViewModel implements TourUpdateListener {
     public StringProperty type = new SimpleStringProperty();
     public StringProperty estimatedTime = new SimpleStringProperty();
 
+
+
+
+    private UUID tourId;
+
     // there's no way of binding a StringProperty to an <Image> url, so we just keep it
     // in a string and have the controller deal with it
     public String mapFilename = "https://cdn.wallpapersafari.com/83/21/rNY3k2.jpg";
