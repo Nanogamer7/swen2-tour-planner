@@ -64,6 +64,17 @@ public class TourFormViewModel implements TourUpdateListener {
         EventHandler.getInstance().refreshTourList();
     }
 
+    public void swapStartEnd() {
+        double tempLatitude = startLatitude.get();
+        double tempLongitude = startLongitude.get();
+
+        this.startLatitude.set(this.endLatitude.get());
+        this.startLongitude.set(this.endLongitude.get());
+
+        this.endLatitude.set(tempLatitude);
+        this.endLongitude.set(tempLongitude);
+    }
+
     public UUID createNewTour() {
         var tour = new TourInput(
                 this.name.get(),

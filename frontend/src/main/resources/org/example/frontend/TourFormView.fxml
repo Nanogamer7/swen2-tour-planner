@@ -21,16 +21,20 @@
         <TextField fx:id="startLongitudeField" promptText="Longitude"/>
     </HBox>
 
-    <Label text="End coordinates:" GridPane.rowIndex="4"/>
     <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <Button text="Swap start/end" fx:id="swapButton"/>
+    </HBox>
+
+    <Label text="End coordinates:" GridPane.rowIndex="5"/>
+    <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <TextField fx:id="endLatitudeField" promptText="Latitude"/>
         <TextField fx:id="endLongitudeField" promptText="Longitude"/>
     </HBox>
 
-    <Label text="Transport type:" GridPane.rowIndex="5"/>
-    <ComboBox fx:id="typeDrowdown" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <Label text="Transport type:" GridPane.rowIndex="6"/>
+    <ComboBox fx:id="typeDrowdown" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
-    <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6">
+    <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
         <Button text="Confirm" fx:id="confirmButton"/>
         <Button text="Cancel" fx:id="cancelButton"/>
     </HBox>

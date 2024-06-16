@@ -17,6 +17,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class TourService {
     }
 
     public Tour getTourById(UUID id) {
-        return tourRepository.findById(id).orElse(null);
+        return tourRepository.findById(id).map(this::addTimeDistanceInfo).orElse(null);
     }
 
     public Tour createTour(Tour tour) {
@@ -83,8 +84,18 @@ public class TourService {
         document.add(new Paragraph("Tour Report").setFontSize(18).setBold());
         document.add(new Paragraph("Tour Name: " + tour.getName()));
         document.add(new Paragraph("Description: " + tour.getDescription()));
+        document.add(new Paragraph("Mode of transportation: " + tour.getType().description));
         document.add(new Paragraph("Start Location: (" + tour.getStart_lat() + ", " + tour.getStart_long() + ")"));
         document.add(new Paragraph("End Location: (" + tour.getEnd_lat() + ", " + tour.getEnd_long() + ")"));
+        document.add(new Paragraph("Estimated time: " +
+                Duration.ofSeconds(
+                        tour.getTime())
+                        .toString()
+                        .substring(2)
+                        .replaceAll("(\\d[HMS])(?!$)", "$1 ")
+                        .toLowerCase()
+        ));
+        document.add(new Paragraph("Distance: " + tour.getDistance() + "m"));
 
 
         float[] columnWidths = {1, 2, 2, 2, 2};

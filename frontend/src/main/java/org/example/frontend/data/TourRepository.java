@@ -178,4 +178,22 @@ public final class TourRepository {
 
         return List.of();
     }
+
+    public byte[] getPdfReport(UUID uuid) {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpResponse<byte[]> response;
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + uuid + "/report")) //TODO: config file for backend address
+                    .GET()
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+
+            return response.body();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handling
+        }
+
+        return null;
+    }
 }

@@ -3,6 +3,7 @@ package org.example.frontend.components.TourDetails;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,8 @@ import org.example.frontend.MainWindow;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
+
+import java.util.Optional;
 
 public class TourDetailsController implements TourUpdateListener {
     private final TourDetailsViewModel viewModel = new TourDetailsViewModel();
@@ -31,6 +34,7 @@ public class TourDetailsController implements TourUpdateListener {
     // Route Tab
     public ImageView imgTourMap;
     public VBox vboxTourMap;
+    public Button pdfButton;
 
 
     @FXML
@@ -46,6 +50,8 @@ public class TourDetailsController implements TourUpdateListener {
         lblDistance.textProperty().bind(viewModel.distance);
         lblType.textProperty().bind(viewModel.type);
         lblEstimatedTime.textProperty().bind(viewModel.estimatedTime);
+
+        pdfButton.setOnAction(event -> viewModel.saveAsPdf(Optional.ofNullable(this.selectedTour).map(Tour::getUuid).orElse(null)));
 
         // Route tab (TourLogs are in their own component)
         imgTourMap.setImage(new Image(String.valueOf(TourDetailsController.class.getResource("/org/example/frontend/placeholder_map.png"))));

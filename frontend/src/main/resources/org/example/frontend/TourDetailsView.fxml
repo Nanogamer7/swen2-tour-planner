@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <TabPane xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="org.example.frontend.components.TourDetails.TourDetailsController"
@@ -15,26 +14,28 @@
 
     <Tab text="General">
         <GridPane hgap="5" vgap="5" style="-fx-padding: 10;">
-            <Label text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Label fx:id="lblName" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Button text="Download .pdf" fx:id="pdfButton" GridPane.columnIndex="0"/>
 
-            <Label text="Description" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Label fx:id="lblDescription" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label fx:id="lblName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <Label text="From" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <Label fx:id="lblFrom" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Description" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label fx:id="lblDescription" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <Label text="To" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <Label fx:id="lblTo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="From" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label fx:id="lblFrom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-            <Label text="Distance" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <Label fx:id="lblDistance" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="To" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label fx:id="lblTo" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-            <Label text="Type" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <Label fx:id="lblType" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Distance" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <Label fx:id="lblDistance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-            <Label text="Estimated Time" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <Label fx:id="lblEstimatedTime" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Type" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label fx:id="lblType" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+            <Label text="Estimated Time" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label fx:id="lblEstimatedTime" GridPane.columnIndex="1" GridPane.rowIndex="7" />
         </GridPane>
     </Tab>
 
