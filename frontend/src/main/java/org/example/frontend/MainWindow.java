@@ -5,9 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 public class MainWindow extends Application {
     @Getter
     private static MainWindow instance;
@@ -31,6 +33,7 @@ public class MainWindow extends Application {
     }
 
     public static void main(String[] args) {
+        log.info("Start of setUp");
         launch();
     }
 }

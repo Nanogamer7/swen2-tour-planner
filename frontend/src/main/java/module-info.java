@@ -11,6 +11,7 @@ module org.example.frontend {
     requires com.fasterxml.jackson.datatype.jsr310;
     requires org.json;
     requires org.apache.logging.log4j;
+    requires org.slf4j;
 
     opens org.example.frontend to javafx.fxml;
     exports org.example.frontend;
