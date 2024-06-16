@@ -8,10 +8,13 @@ import at.fhtw.tourplanner.services.TourLogService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -68,5 +71,20 @@ class TourLogServiceTests {
         tourLogService.deleteById(id);
         Mockito.verify(tourLogRepository, Mockito.times(1)).deleteById(id);
     }
+
+    @Test
+    void testFindAllOfTour() {
+        UUID tourId = UUID.randomUUID();
+        List<TourLog> tourLogs = new ArrayList<>();
+        tourLogs.add(new TourLog());
+        tourLogs.add(new TourLog());
+
+        when(tourLogRepository.findAllByTourId(tourId)).thenReturn(tourLogs);
+
+        List<TourLog> foundTourLogs = tourLogService.findAllOfTour(tourId);
+        assertNotNull(foundTourLogs);
+        assertEquals(2, foundTourLogs.size());
+    }
+
 }
 
