@@ -3,8 +3,6 @@ package org.example.frontend.components.TourDetails;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import lombok.Setter;
 import org.example.frontend.MainWindow;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
@@ -13,7 +11,7 @@ import org.example.frontend.data.models.Tour;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 public class TourDetailsViewModel implements TourUpdateListener {
@@ -54,12 +52,30 @@ public class TourDetailsViewModel implements TourUpdateListener {
         );
     }
 
+    public void saveAsJson(UUID tourId) {
+        saveFile(tourId, FileType.JSON);
+    }
+
     public void saveAsPdf(UUID tourId) {
+        saveFile(tourId, FileType.PDF);
+    }
+
+    private void saveFile(UUID tourId, FileType fileType) {
         if (tourId == null) {
             // TODO: error popup
             return;
         }
-        byte[] bytes = TourRepository.getInstance().getPdfReport(tourId);
+
+
+        TourRepository.getInstance().getPdfReport(tourId);
+        byte[] bytes = switch (fileType) {
+            case PDF -> TourRepository.getInstance().getPdfReport(tourId);
+            case JSON -> Objects.requireNonNull(
+                    TourRepository.getInstance()
+                            .getTourJSON(tourId))
+                    .toString(4)
+                    .getBytes();
+        };
 
         if (bytes == null) {
             // TODO: error popup
@@ -67,9 +83,9 @@ public class TourDetailsViewModel implements TourUpdateListener {
         }
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"));
-        fileChooser.setInitialFileName("tour.pdf");
-        fileChooser.setTitle("Save Tour to PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(fileType.getExtensionInfo(), fileType.getExtension()));
+        fileChooser.setInitialFileName("tour" + fileType.getExtension().substring(1));
+        fileChooser.setTitle("Save Tour");
 
         File file = fileChooser.showSaveDialog(MainWindow.getPrimaryStage());
 

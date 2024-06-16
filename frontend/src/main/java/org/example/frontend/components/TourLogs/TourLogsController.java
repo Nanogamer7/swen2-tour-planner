@@ -1,6 +1,8 @@
 package org.example.frontend.components.TourLogs;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -15,7 +17,10 @@ import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
 
+import javax.swing.text.html.Option;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class TourLogsController implements TourUpdateListener {
@@ -23,10 +28,12 @@ public class TourLogsController implements TourUpdateListener {
     private List<TourLogsViewModel.FormattedTourLog> allTourLogs;
 
     public Button btnAddTourLog;
+    public Button btnEditTourLog;
+    public Button btnRemoveTourLog;
 
     public TextField txtSearchField;
 
-    public TableView tblLogs;
+    public TableView<TourLogsViewModel.FormattedTourLog> tblLogs;
     public TableColumn colDate;
     public TableColumn colDuration;
     public TableColumn colDistance;
@@ -43,6 +50,7 @@ public class TourLogsController implements TourUpdateListener {
     public void initialize(){
         EventHandler.getInstance().registerTourUpdateListener(this);
         EventHandler.getInstance().registerTourLogsUpdateListener(this);
+        EventHandler.getInstance().registerTourLogsListController(this);
 
         tourLogsForm.visibleProperty().bind(viewModel.formVisible);
         tourLogsForm.managedProperty().bind(viewModel.formVisible);
@@ -51,6 +59,7 @@ public class TourLogsController implements TourUpdateListener {
         tblLogs.managedProperty().bind(Bindings.not(viewModel.formVisible));
 
         EventHandler.getInstance().registerTourLogsFormVisibilityListener(viewModel);
+        EventHandler.getInstance().registerLogUpdateListener(viewModel);
 
         // Bind to table
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -62,11 +71,28 @@ public class TourLogsController implements TourUpdateListener {
 
         tblLogs.setItems(viewModel.formattedTourLogs);
 
+        tblLogs.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener.Change<?extends TourLogsViewModel.FormattedTourLog> change) -> {
+                    EventHandler.getInstance().publishLogUpdateEvent(
+                            tblLogs.getSelectionModel().getSelectedItem()
+                    );
+                }
+        );
+
         btnAddTourLog.setOnAction(event -> {
+            EventHandler.getInstance().publishLogUpdateEvent(null);
             EventHandler.getInstance().updateTourLogsFormVisibility(true);
         });
-    }
 
+        btnEditTourLog.setOnAction(event -> {
+            EventHandler.getInstance().updateTourLogsFormVisibility(true);
+        });
+
+        btnRemoveTourLog.setOnAction(event -> {
+            viewModel.deleteTourLog();
+            EventHandler.getInstance().refreshTourLogsList();
+        });
+    }
 
     @Override
     public void updateTour(Tour tour) {

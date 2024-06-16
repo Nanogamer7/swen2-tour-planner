@@ -42,5 +42,6 @@ public class TourLogsFormController {
 
 
         EventHandler.getInstance().registerTourUpdateListener(viewModel);
+        EventHandler.getInstance().registerLogUpdateListener(viewModel);
     }
 }

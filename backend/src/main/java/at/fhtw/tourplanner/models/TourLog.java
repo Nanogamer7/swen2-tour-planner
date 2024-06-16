@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -20,17 +21,17 @@ public class TourLog {
     @GeneratedValue
     private UUID id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tour_id", nullable = false)
+    @JoinColumn(name = "tour_id", nullable = false, updatable = false)
     @JsonIgnore
     private Tour tour;
     @CreationTimestamp
-    @Column(name = "\"timestamp\"")
+    @Column(name = "\"timestamp\"", updatable = false)
     private Timestamp timestamp;
     private Integer difficulty;
     private Integer distance;
     @Column(name = "\"time\"")
     private Integer time;
     private Integer rating;
-    private Boolean outdated;
+    private Boolean outdated = false;
 
 }

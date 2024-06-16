@@ -1,7 +1,9 @@
 package org.example.frontend.components.TourLogsForm;
 
 import javafx.beans.property.*;
+import lombok.extern.java.Log;
 import org.example.frontend.EventHandler;
+import org.example.frontend.base.LogUpdateListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.*;
@@ -11,7 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.UUID;
 
-public class TourLogsFormViewModel implements TourUpdateListener {
+public class TourLogsFormViewModel implements TourUpdateListener, LogUpdateListener {
     public LongProperty timestamp = new SimpleLongProperty();
 
     public LongProperty distance = new SimpleLongProperty(); //meters
@@ -22,6 +24,7 @@ public class TourLogsFormViewModel implements TourUpdateListener {
     //public ObjectProperty<TransportType> type = new SimpleObjectProperty<>();
 
     public UUID tourUuid = null;
+    public UUID logUuid = null;
 
     @Override
     public void updateTour(Tour tour) {
@@ -32,86 +35,43 @@ public class TourLogsFormViewModel implements TourUpdateListener {
         this.tourUuid = tour.getUuid();
     }
 
-    /*
     @Override
-    public void updateTour(Tour tour) {
-        if (tour == null) {
-            tourUuid = null;
-
-            // implicitly new tour
-            description.set("");
-            startLatitude.set(0);
-            startLongitude.set(0);
-            endLatitude.set(0);
-            endLongitude.set(0);
-            type.set(null);
-
-
+    public void updateLog(TourLog tourLog) {
+        if (tourLog == null) {
+            this.logUuid = null;
+            this.comment.set("");
+            this.difficulty.set(0);
+            this.distance.set(0);
+            this.duration.set(0);
+            this.rating.set(0);
             return;
         }
 
-        tourUuid = tour.uuid();
-
-
-        // implicitly new tour
-        name.set(tour.name());
-        description.set(tour.description());
-        startLatitude.set(tour.from().latitude());
-        startLongitude.set(tour.from().longitude());
-        endLatitude.set(tour.to().latitude());
-        endLongitude.set(tour.to().longitude());
-        type.set(tour.type());
-
-    }*/
+        this.logUuid = tourLog.getUuid();
+        this.comment.set(tourLog.getComment());
+        this.difficulty.set(tourLog.getDifficulty());
+        this.distance.set(tourLog.getDistance());
+        this.duration.set(tourLog.getDuration());
+        this.rating.set(tourLog.getRating());
+    }
 
     public void submit() {
-        /*
-        UUID tourUuid;
-        if (this.tourUuid == null) {
-            tourUuid = (this.tourUuid = createNewTour());
-        }
-        else {
-            modifyTour(tourUuid = this.tourUuid);
-        }*/
-
-        TourRepository.getInstance().addTourLog(new TourLogInput(
-                Instant.now().getEpochSecond(),
+        TourLogInput input = new TourLogInput(
                 this.comment.get(),
                 this.difficulty.get(),
                 this.distance.get(),
                 this.duration.get(),
                 this.rating.get()
-        ), this.tourUuid);
+        );
+
+        if (this.logUuid == null) {
+            TourRepository.getInstance().addTourLog(input, this.tourUuid);
+        } else {
+            TourRepository.getInstance().modifyLog(input, this.logUuid);
+        }
 
         EventHandler.getInstance().updateTourLogsFormVisibility(false);
         EventHandler.getInstance().refreshTourLogsList();
         // TODO: refresh logs list
     }
-
-
-    /*
-    public UUID createNewTour() {
-        var tour = new TourInput(
-                this.name.get(),
-                this.description.get(),
-                new Coordinate(this.startLatitude.get(), this.startLongitude.get()),
-                new Coordinate(this.endLatitude.get(), this.endLongitude.get()),
-                this.type.get()
-        );
-
-        return TourRepository.getInstance().createTour(tour);
-    }
-
-    public void modifyTour(UUID tourUuid) {
-        var tour = new TourInput(
-                this.name.get(),
-                this.description.get(),
-                new Coordinate(this.startLatitude.get(), this.startLongitude.get()),
-                new Coordinate(this.endLatitude.get(), this.endLongitude.get()),
-                this.type.get()
-        );
-
-        TourRepository.getInstance().modifyTour(tour, tourUuid);
-    }
-     */
 }

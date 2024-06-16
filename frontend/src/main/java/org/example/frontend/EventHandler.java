@@ -1,14 +1,17 @@
 package org.example.frontend;
 
+import org.example.frontend.base.LogUpdateListener;
 import org.example.frontend.base.TourFormVisibilityListener;
 import org.example.frontend.base.TourLogFormVisibilityListener;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.components.TourList.TourListController;
 import org.example.frontend.components.TourLogs.TourLogsController;
 import org.example.frontend.data.models.Tour;
+import org.example.frontend.data.models.TourLog;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * A mediator to pass UI updates between components
@@ -40,6 +43,18 @@ public class EventHandler {
         tourUpdateListeners.add(listener);
     }
 
+    private final ArrayList<LogUpdateListener> logUpdateListeners = new ArrayList<>();
+    // TODO: more descriptive name
+    public void publishLogUpdateEvent(TourLog tourLog){
+        for (var listener : logUpdateListeners) {
+            listener.updateLog(tourLog);
+        }
+    }
+
+    public void registerLogUpdateListener(LogUpdateListener listener){
+        logUpdateListeners.add(listener);
+    }
+
     // Refresh tours list
     private TourListController tourListController;
     public void registerTourListController(TourListController tourListController){
@@ -61,7 +76,8 @@ public class EventHandler {
     }
 
     public void refreshTourLogsList(){
-        Optional.ofNullable(this.tourLogsController).ifPresent(TourLogsController::refreshTourLogsList);
+        //Optional.ofNullable(this.tourLogsController).ifPresent(TourLogsController::refreshTourLogsList);
+        this.tourLogsController.refreshTourLogsList();
     }
 
 

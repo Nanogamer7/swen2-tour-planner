@@ -5,52 +5,55 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
-import org.example.frontend.base.TourFormVisibilityListener;
+import org.example.frontend.base.LogUpdateListener;
 import org.example.frontend.base.TourLogFormVisibilityListener;
+import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.TourLog;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-public class TourLogsViewModel implements TourLogFormVisibilityListener {
+public class TourLogsViewModel implements TourLogFormVisibilityListener, LogUpdateListener {
     public ObservableList<FormattedTourLog> formattedTourLogs;
     public BooleanProperty formVisible = new SimpleBooleanProperty(false);
 
+    private UUID selectedLogId = null;
+
+    @Override
+    public void updateLog(TourLog log) {
+        this.selectedLogId = Optional.ofNullable(log).map(TourLog::getUuid).orElse(null);
+    }
 
     @Getter
-    public static class FormattedTourLog {
-        public final UUID uuid;
-        public final long timestamp;
-        private final String comment;
-        private final int difficulty;
-        private final long distance;
-        private final long duration;
-        private final int rating;
-        private final boolean outdated;
-
+    public static class FormattedTourLog extends TourLog {
         public FormattedTourLog(TourLog log) {
-            uuid = log.getUuid();
-            timestamp = log.getTimestamp().getEpochSecond();
-            comment = log.getComment();
-            difficulty = log.getDifficulty();
-            distance = log.getDistance();
-            duration = log.getDuration();
-            rating = log.getRating();
-            outdated = log.getOutdated();
+            super(
+                    log.getUuid(),
+                    log.getTimestamp(),
+                    log.getComment(),
+                    log.getDifficulty(),
+                    log.getDistance(),
+                    log.getDuration(),
+                    log.getRating(),
+                    log.getOutdated()
+            );
         }
 
         public String getDate() {
             var dateFormat = new java.text.SimpleDateFormat("dd.MM.yy HH:mm");
-            return dateFormat.format(new Date(timestamp*1000));  // *1000 => convert seconds to ms
+            return dateFormat.format(Date.from(timestamp));  // *1000 => convert seconds to ms
         }
 
         public String getFormattedDuration() {
+            if (this.duration == null || this.duration == 0) {
+                return "--:--";
+            }
             var hours = Math.floorDiv(duration, 60*60);
             var minutes = Math.floorDiv(duration, 60) % 60;
+            var seconds = duration % 60;
 
-            return String.format("%02d:%02d", hours, minutes);
+            return hours > 0 ?
+                    String.format("%02d:%02d:%02d", hours, minutes, seconds) :
+                    String.format("%02d:%02d", minutes, seconds);
         }
     }
 
@@ -67,5 +70,13 @@ public class TourLogsViewModel implements TourLogFormVisibilityListener {
         }
 
         this.formattedTourLogs = FXCollections.observableArrayList(formattedTourLogs);
+    }
+
+    public void deleteTourLog() {
+        if (selectedLogId == null) {
+            return;
+        }
+
+        TourRepository.getInstance().deleteLog(this.selectedLogId);
     }
 }

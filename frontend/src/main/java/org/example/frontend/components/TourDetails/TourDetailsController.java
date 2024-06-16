@@ -2,6 +2,7 @@ package org.example.frontend.components.TourDetails;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,6 +36,7 @@ public class TourDetailsController implements TourUpdateListener {
     public ImageView imgTourMap;
     public VBox vboxTourMap;
     public Button pdfButton;
+    public Button exportButton;
 
 
     @FXML
@@ -52,6 +54,7 @@ public class TourDetailsController implements TourUpdateListener {
         lblEstimatedTime.textProperty().bind(viewModel.estimatedTime);
 
         pdfButton.setOnAction(event -> viewModel.saveAsPdf(Optional.ofNullable(this.selectedTour).map(Tour::getUuid).orElse(null)));
+        exportButton.setOnAction(event -> viewModel.saveAsJson(Optional.ofNullable(this.selectedTour).map(Tour::getUuid).orElse(null)));
 
         // Route tab (TourLogs are in their own component)
         imgTourMap.setImage(new Image(String.valueOf(TourDetailsController.class.getResource("/org/example/frontend/placeholder_map.png"))));

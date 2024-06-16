@@ -24,6 +24,7 @@ public class TourLog {
     protected String comment = "";
     protected Integer difficulty = 1;
     protected Long distance = 0L;
+    @JsonProperty("time")
     protected Long duration = 0L;
     protected Integer rating = 1;
 

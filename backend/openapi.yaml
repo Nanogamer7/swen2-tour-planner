@@ -45,22 +45,6 @@ paths:
                   $ref: '#/components/schemas/tour'
         '204':
           description: No tours exist
-
-    put:
-      summary: Modifies the specified tour
-      description: Changes the tour associated with the give tour-id to match the new data
-      tags:
-        - tours
-      responses:
-        '200':
-          description: Tour modified
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/tour'
-        '404':
-          description: Tour does not exist
-
   /tours/{tour_id}:
     get:
       summary: Returns a specific tour
@@ -83,7 +67,27 @@ paths:
                 $ref: '#/components/schemas/tour'
         '404':
           description: Tour does not exist
-
+    put:
+      summary: Modifies the specified tour
+      description: Changes the tour associated with the give tour-id to match the new data
+      tags:
+        - tours
+      parameters:
+        - in: path
+          name: tour_id
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: Tour modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tour'
+        '404':
+          description: Tour does not exist
     delete:
       summary: Deletes the specified tour
       description: Deletes the tour and all log entries associated with the given tour-id
@@ -148,22 +152,6 @@ paths:
         '404':
           description: Tour does not exist
 
-  /logs/:
-    put:
-      summary: Modifies the specified log entry
-      description: Changes the log entry associated with the give log-id to match the new data
-      tags:
-        - logs
-      responses:
-        '200':
-          description: Log entry modified
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/tour_log'
-        '404':
-          description: Log entry does not exist
-
   /logs/{log_id}:
     get:
       summary: Returns a specific log entry
@@ -186,7 +174,27 @@ paths:
                 $ref: '#/components/schemas/tour_log'
         '404':
           description: Log entry does not exist
-
+    put:
+      summary: Modifies the specified log entry
+      description: Changes the log entry associated with the give log-id to match the new data
+      tags:
+        - logs
+      parameters:
+        - in: path
+          name: log_id
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: Log entry modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tour_log'
+        '404':
+          description: Log entry does not exist
     delete:
       summary: Deletes the specified log entry
       description: Deletes the log entry associated with the given log-id

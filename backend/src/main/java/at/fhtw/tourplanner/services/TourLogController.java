@@ -15,8 +15,9 @@ import java.util.UUID;
 public class TourLogController {
     private final TourLogService tourLogService;
 
-    @PutMapping("/")
-    public ResponseEntity<TourLog> updateTourLog(@RequestBody TourLog tourLog) {
+    @PutMapping("/{log_id}")
+    public ResponseEntity<TourLog> updateTourLog(@RequestBody TourLog tourLog, @PathVariable UUID log_id) {
+        tourLog.setId(log_id);
         return ResponseEntity.ok(tourLogService.update(tourLog));
     }
 
