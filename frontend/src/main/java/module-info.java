@@ -4,6 +4,7 @@ module org.example.frontend {
 
     requires org.kordamp.bootstrapfx.core;
     requires static lombok;
+    requires java.desktop;
     requires java.net.http;
     requires jdk.httpserver;
     requires com.fasterxml.jackson.databind;

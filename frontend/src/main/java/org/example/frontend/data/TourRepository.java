@@ -8,12 +8,15 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.frontend.data.models.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.net.http.HttpClient;
 
 public final class TourRepository {
     // temporary singleton until REST server to have singular source for data
@@ -122,6 +125,35 @@ public final class TourRepository {
         }
 
         return List.of();
+    }
+
+     /**
+      * Downloads the GeoJSON for the tour route. This geojson is saved to a directions.js file in /resources/,
+       * which is ultimately used by our map.html to visually display our route.
+       */
+     public void downloadTourDirectionGeoJson(UUID uuid) { // TODO: this should return a JSONObject, do saving at appropriate place
+         try (HttpClient client = HttpClient.newHttpClient()) {
+             HttpResponse<String> response;
+             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + uuid + "/route")) //TODO: config file for backend address
+                     .GET()
+                     .header("Content-Type", "application/json; charset=utf-8")
+                     .build();
+
+             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+             Path resourcesDirectory = Paths.get("src", "main", "resources", "org", "example", "frontend"); // hardcoded bad >:c
+             Path outputPath = resourcesDirectory.resolve("directions.js");
+
+             System.out.println("Downloading directions geojson.\nSaving it to %s".formatted(
+                     outputPath.toAbsolutePath().toString())
+             );
+
+             // Write response to directions.js
+             Files.writeString(outputPath, "var directions = " + response.body());
+         } catch (Exception e) {
+             // TODO: handling
+             e.printStackTrace();
+         }
     }
 
     public String fetchTourImage(UUID uuid){

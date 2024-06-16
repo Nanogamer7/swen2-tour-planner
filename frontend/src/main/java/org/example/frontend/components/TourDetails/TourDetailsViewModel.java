@@ -3,6 +3,7 @@ package org.example.frontend.components.TourDetails;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.example.frontend.base.TourUpdateListener;
+import org.example.frontend.data.TourRepository;
 import org.example.frontend.data.models.Tour;
 
 import java.util.Locale;

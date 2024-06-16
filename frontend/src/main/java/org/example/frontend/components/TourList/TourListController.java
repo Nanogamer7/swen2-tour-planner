@@ -3,6 +3,7 @@ package org.example.frontend.components.TourList;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import org.example.frontend.EventHandler;
 import org.example.frontend.base.TourUpdateListener;
 import org.example.frontend.data.TourRepository;
@@ -12,6 +13,7 @@ public class TourListController implements TourUpdateListener {
     private final TourListViewModel viewModel = new TourListViewModel();
 
     public ListView<String> lvTourNames;
+    public TextField txtSearchField;
 
 
     @FXML
@@ -46,6 +48,26 @@ public class TourListController implements TourUpdateListener {
 
     public void refreshToursList(){
         viewModel.setTours(TourRepository.getInstance().fetchTours());
+        lvTourNames.setItems(viewModel.getTourListViewNames());
+    }
+
+    public void onSearch(){
+        var searchQuery = txtSearchField.getText().toLowerCase();
+        var allTours = TourRepository.getInstance().fetchTours();
+
+        if(searchQuery.isEmpty()){
+            viewModel.setTours(allTours);
+        } else {
+            viewModel.setTours(allTours.stream().filter(
+                    (Tour tour) ->
+                            tour.getName().toLowerCase().contains(searchQuery) ||
+                            tour.getDescription().toLowerCase().contains(searchQuery) ||
+                            String.valueOf(tour.getDistance()).toLowerCase().contains(searchQuery) ||
+                            String.valueOf(tour.getEstimated_time()).toLowerCase().contains(searchQuery) ||
+                            tour.getType().name().toLowerCase().contains(searchQuery)
+            ).toList());
+        }
+
         lvTourNames.setItems(viewModel.getTourListViewNames());
     }
 }

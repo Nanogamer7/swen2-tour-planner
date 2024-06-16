@@ -45,8 +45,8 @@ public class TourFormViewModel implements TourUpdateListener {
         description.set(tour.getDescription());
         startLatitude.set(tour.getFrom_lat());
         startLongitude.set(tour.getFrom_long());
-        endLatitude.set(tour.getFrom_lat());
-        endLongitude.set(tour.getFrom_long());
+        endLatitude.set(tour.getTo_lat());
+        endLongitude.set(tour.getTo_long());
         type.set(tour.getType());
     }
 

@@ -106,7 +106,7 @@ public class TourService {
         document.add(table);
         document.close();
 
-        logger.info("PDF successfully created for Tour ID: " + id);
+        logger.info("PDF successfully created for Tour ID: {}", id);
 
         return baos.toByteArray();
     }
@@ -114,7 +114,7 @@ public class TourService {
     public String getTourRouteInformationById(UUID id) {
         Tour tour = getTourById(id);
         try {
-            return directionService.getRouteInformation(tour.getType(), tour.getStart_lat(), tour.getStart_long(), tour.getEnd_lat(), tour.getEnd_long()).toString();
+            return directionService.getJson(tour.getType(), tour.getStart_lat(), tour.getStart_long(), tour.getEnd_lat(), tour.getEnd_long(), true).toString();
         } catch (Exception e) {
             e.printStackTrace();
             // http 500 do nothing

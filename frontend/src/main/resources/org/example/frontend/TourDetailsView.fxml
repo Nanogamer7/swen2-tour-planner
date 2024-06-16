@@ -42,7 +42,7 @@
     <Tab text="Route">
         <VBox style="-fx-padding: 10;">
             <HBox alignment="CENTER">
-                <ImageView preserveRatio="true" fitWidth="600" fx:id="imgTourMap" />
+                <ImageView preserveRatio="true" fitWidth="600" fx:id="imgTourMap" onMouseClicked="#openTourMap" />
             </HBox>
             <fx:include source="TourLogsView.fxml" />
         </VBox>

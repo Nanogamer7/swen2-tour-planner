@@ -24,7 +24,7 @@ public class DirectionService {
     private String apiURL;
 
     public Integer getTime(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude) throws IOException, InterruptedException {
-        return (int) getJSson(type, startLatitude, startLongitude, endLatitude, endLongitude)
+        return (int) getJson(type, startLatitude, startLongitude, endLatitude, endLongitude, false)
                 .getJSONArray("routes")
                 .getJSONObject(0)
                 .getJSONObject("summary")
@@ -32,7 +32,7 @@ public class DirectionService {
     }
 
     public Integer getDistance(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude) throws IOException, InterruptedException {
-        return (int) getJSson(type, startLatitude, startLongitude, endLatitude, endLongitude)
+        return (int) getJson(type, startLatitude, startLongitude, endLatitude, endLongitude, false)
                 .getJSONArray("routes")
                 .getJSONObject(0)
                 .getJSONObject("summary")
@@ -40,7 +40,7 @@ public class DirectionService {
     }
 
     public Pair<Integer, Integer> getTimeDistance(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude) throws IOException, InterruptedException {
-        JSONObject summary = getJSson(type, startLatitude, startLongitude, endLatitude, endLongitude)
+        JSONObject summary = getJson(type, startLatitude, startLongitude, endLatitude, endLongitude, false)
                 .getJSONArray("routes")
                 .getJSONObject(0)
                 .getJSONObject("summary");
@@ -48,10 +48,10 @@ public class DirectionService {
     }
 
     public JSONObject getRouteInformation(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude) throws IOException, InterruptedException {
-        return getJSson(type, startLatitude, startLongitude, endLatitude, endLongitude).getJSONArray("routes").getJSONObject(0);
+        return getJson(type, startLatitude, startLongitude, endLatitude, endLongitude, false).getJSONArray("routes").getJSONObject(0);
     }
 
-    private JSONObject getJSson(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude) throws IOException, InterruptedException {
+    public JSONObject getJson(TransportType type, double startLatitude, double startLongitude, double endLatitude, double endLongitude, boolean geoJson) throws IOException, InterruptedException {
         JSONArray coordinates = new JSONArray().put(
                 new JSONArray()
                         .put(startLongitude)
@@ -67,7 +67,7 @@ public class DirectionService {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(
                             UriComponentsBuilder.fromHttpUrl(apiURL)
-                                    .path("/v2/directions/{type}/json")
+                                    .path("/v2/directions/{type}/" + (geoJson ? "geojson" : "json"))
                                     .buildAndExpand(type.apiString)
                                     .toUri()
                     )
