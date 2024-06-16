@@ -5,14 +5,18 @@ import at.fhtw.tourplanner.models.Tour;
 import at.fhtw.tourplanner.data.repositories.TourRepository;
 import at.fhtw.tourplanner.services.TourLogService;
 import at.fhtw.tourplanner.services.TourService;
+import com.itextpdf.io.exceptions.IOException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -65,5 +69,47 @@ class TourServiceTests {
         UUID id = UUID.randomUUID();
         tourService.deleteTourById(id);
         Mockito.verify(tourRepository, Mockito.times(1)).deleteById(id);
+    }
+    @Test
+    void testGetAllTours() {
+        List<Tour> tours = new ArrayList<>();
+        tours.add(new Tour());
+        tours.add(new Tour());
+
+        when(tourRepository.findAll()).thenReturn(tours);
+
+        List<Tour> foundTours = tourService.getAllTours();
+        assertNotNull(foundTours);
+        assertEquals(2, foundTours.size());
+    }
+
+    @Test
+    void testGetTourRouteInformationByIdThrowsException() throws java.io.IOException, InterruptedException {
+        UUID tourId = UUID.randomUUID();
+
+        when(tourRepository.findById(tourId)).thenReturn(Optional.of(new Tour()));
+        when(directionService.getJson(any(), anyDouble(), anyDouble(), anyDouble(), anyDouble(), anyBoolean()))
+                .thenThrow(new RuntimeException("API error"));
+
+        String routeInfo = tourService.getTourRouteInformationById(tourId);
+        assertEquals("", routeInfo);
+    }
+
+    @Test
+    void testAddTimeDistanceInfoThrowsException() throws java.io.IOException, InterruptedException {
+        Tour tour = new Tour();
+        tour.setStart_lat(0.0);
+        tour.setStart_long(0.0);
+        tour.setEnd_lat(0.0);
+        tour.setEnd_long(0.0);
+        tour.setType(TransportType.CAR);
+
+        when(directionService.getTimeDistance(any(), anyDouble(), anyDouble(), anyDouble(), anyDouble()))
+                .thenThrow(new IOException("API error"));
+
+        Tour updatedTour = tourService.addTimeDistanceInfo(tour);
+        assertNotNull(updatedTour);
+        assertNull(updatedTour.getTime());
+        assertNull(updatedTour.getDistance());
     }
 }
