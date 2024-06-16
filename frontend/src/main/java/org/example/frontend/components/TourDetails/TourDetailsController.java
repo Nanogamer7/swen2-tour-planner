@@ -2,6 +2,7 @@ package org.example.frontend.components.TourDetails;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

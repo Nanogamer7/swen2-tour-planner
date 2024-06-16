@@ -18,7 +18,11 @@
             <TextField promptText="Suche" fx:id="txtSearchField" onKeyPressed="#onSearch"></TextField>
         </center>
         <right>
-            <Button text="+" fx:id="btnAddTourLog" />
+            <HBox>
+                <Button text="-" fx:id="btnRemoveTourLog" />
+                <Button text="*" fx:id="btnEditTourLog" />
+                <Button text="+" fx:id="btnAddTourLog" />
+            </HBox>
         </right>
     </BorderPane>
     <TableView fx:id="tblLogs">

@@ -73,10 +73,45 @@ public final class TourRepository {
     }
 
     // TODO: return if success
+    public Tour modifyLog(TourLogInput tourLogInput, UUID logUUID) {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpResponse<String> response;
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/logs/" + logUUID)) //TODO: config file for backend address
+                    .PUT(HttpRequest.BodyPublishers.ofString(JsonMapper.builder().build().writeValueAsString(tourLogInput)))
+                    .header("Content-Type", "application/json; charset=utf-8")
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return JsonMapper.builder().build().readValue(response.body(), Tour.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handling
+        }
+
+        return null;
+    }
+
+    // TODO: return if success
     public void delete(UUID tourUUID) {
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpResponse<String> response;
             HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/tours/" + tourUUID)) //TODO: config file for backend address
+                    .DELETE()
+                    .header("Content-Type", "application/json; charset=utf-8")
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handling
+        }
+    }
+
+    // TODO: return if success
+    public void deleteLog(UUID logUUID) {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpResponse<String> response;
+            HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:8080/logs/" + logUUID)) //TODO: config file for backend address
                     .DELETE()
                     .header("Content-Type", "application/json; charset=utf-8")
                     .build();
