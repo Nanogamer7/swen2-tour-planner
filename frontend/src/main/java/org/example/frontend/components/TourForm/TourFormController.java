@@ -22,6 +22,7 @@ public class TourFormController {
     public ComboBox<TransportType> typeDrowdown;
     public Button confirmButton;
     public Button cancelButton;
+    public Button swapButton;
 
     @FXML
     public void initialize() {
@@ -32,6 +33,8 @@ public class TourFormController {
         endLatitudeField.textProperty().bindBidirectional(viewModel.endLatitude, new NumberStringConverter());
         endLongitudeField.textProperty().bindBidirectional(viewModel.endLongitude, new NumberStringConverter());
         typeDrowdown.valueProperty().bindBidirectional(viewModel.type);
+
+        swapButton.setOnAction(event -> viewModel.swapStartEnd());
 
         confirmButton.setOnAction(event -> viewModel.submit());
         cancelButton.setOnAction(event -> EventHandler.getInstance().updateTourFormVisibility(false));
